@@ -2,6 +2,7 @@
 
 import type { WeatherData, WeatherDisplay } from '@/types/weather';
 import { isWeatherError, isWeatherData } from '@/types/weather';
+import { translateCityName } from '@/utils/cityMapping';
 
 /**
  * 都市名から天気情報を取得するServer Action
@@ -46,10 +47,13 @@ export async function getWeather(
     };
   }
 
+  // 日本語の都市名を英語に変換
+  const englishCityName = translateCityName(trimmedCity);
+
   try {
     // URLSearchParamsを使用して安全にパラメータを構築
     const params = new URLSearchParams({
-      q: trimmedCity,
+      q: englishCityName,
       appid: apiKey,
       units: 'metric',
       lang: 'ja',

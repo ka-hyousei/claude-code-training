@@ -101,7 +101,7 @@ describe('getWeather', () => {
       expect(result.success).toBe(true);
     });
 
-    it('日本語の都市名（漢字・ひらがな・カタカナ）は許可される', async () => {
+    it('日本語の都市名（漢字・ひらがな・カタカナ）は英語に変換されて許可される', async () => {
       const mockWeatherData: WeatherData = {
         coord: { lon: 139.6917, lat: 35.6895 },
         weather: [
@@ -137,10 +137,11 @@ describe('getWeather', () => {
         },
         timezone: 32400,
         id: 1850144,
-        name: '東京',
+        name: 'Tokyo',
         cod: 200,
       };
 
+      // 漢字
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
@@ -148,7 +149,13 @@ describe('getWeather', () => {
 
       const result = await getWeather('東京');
       expect(result.success).toBe(true);
+      // APIには英語名"Tokyo"が送信されることを確認
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('q=Tokyo'),
+        expect.any(Object)
+      );
 
+      // ひらがな
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
@@ -157,6 +164,7 @@ describe('getWeather', () => {
       const resultHiragana = await getWeather('とうきょう');
       expect(resultHiragana.success).toBe(true);
 
+      // カタカナ
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
