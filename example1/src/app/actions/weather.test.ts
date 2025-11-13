@@ -47,7 +47,7 @@ describe('getWeather', () => {
       const result = await getWeather('Tokyo123');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error).toBe('都市名には英字、日本語、スペース、カンマ、ハイフン、ピリオドのみ使用できます');
+        expect(result.error).toBe('都市名には英字、日本語、中国語、韓国語、スペース、カンマ、ハイフン、ピリオドのみ使用できます');
       }
     });
 
@@ -172,6 +172,113 @@ describe('getWeather', () => {
 
       const resultKatakana = await getWeather('トウキョウ');
       expect(resultKatakana.success).toBe(true);
+    });
+
+    it('中国語の都市名（簡体字・繁体字）は英語に変換されて許可される', async () => {
+      const mockWeatherData: WeatherData = {
+        coord: { lon: 116.4074, lat: 39.9042 },
+        weather: [
+          {
+            id: 800,
+            main: 'Clear',
+            description: '晴れ',
+            icon: '01d',
+          },
+        ],
+        base: 'stations',
+        main: {
+          temp: 20,
+          feels_like: 19,
+          temp_min: 18,
+          temp_max: 22,
+          pressure: 1013,
+          humidity: 50,
+        },
+        visibility: 10000,
+        wind: {
+          speed: 2.5,
+          deg: 180,
+        },
+        clouds: {
+          all: 0,
+        },
+        dt: 1699776000,
+        sys: {
+          country: 'CN',
+          sunrise: 1699740000,
+          sunset: 1699776000,
+        },
+        timezone: 28800,
+        id: 1816670,
+        name: 'Beijing',
+        cod: 200,
+      };
+
+      // 簡体字
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockWeatherData,
+      });
+
+      const result = await getWeather('北京');
+      expect(result.success).toBe(true);
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('q=Beijing'),
+        expect.any(Object)
+      );
+    });
+
+    it('韓国語の都市名（ハングル）は英語に変換されて許可される', async () => {
+      const mockWeatherData: WeatherData = {
+        coord: { lon: 126.9778, lat: 37.5683 },
+        weather: [
+          {
+            id: 800,
+            main: 'Clear',
+            description: '晴れ',
+            icon: '01d',
+          },
+        ],
+        base: 'stations',
+        main: {
+          temp: 15,
+          feels_like: 14,
+          temp_min: 13,
+          temp_max: 17,
+          pressure: 1013,
+          humidity: 60,
+        },
+        visibility: 10000,
+        wind: {
+          speed: 3.5,
+          deg: 180,
+        },
+        clouds: {
+          all: 0,
+        },
+        dt: 1699776000,
+        sys: {
+          country: 'KR',
+          sunrise: 1699740000,
+          sunset: 1699776000,
+        },
+        timezone: 32400,
+        id: 1835848,
+        name: 'Seoul',
+        cod: 200,
+      };
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockWeatherData,
+      });
+
+      const result = await getWeather('서울');
+      expect(result.success).toBe(true);
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('q=Seoul'),
+        expect.any(Object)
+      );
     });
   });
 

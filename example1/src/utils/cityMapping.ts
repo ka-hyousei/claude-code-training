@@ -1,7 +1,7 @@
 /**
- * 日本語の都市名から英語の都市名へのマッピング
+ * 多言語の都市名から英語の都市名へのマッピング
  * OpenWeatherMap APIは英語の都市名のみ対応しているため、
- * 日本語入力をサポートするための変換テーブル
+ * 日本語・中国語・韓国語入力をサポートするための変換テーブル
  */
 
 type CityMapping = {
@@ -9,11 +9,14 @@ type CityMapping = {
 };
 
 /**
- * 日本の主要都市の日英対応表
- * キー: 日本語の都市名（漢字、ひらがな、カタカナ）
+ * 主要都市の多言語対応表
+ * キー: 現地語の都市名（漢字、ひらがな、カタカナ、簡体字、繁体字、ハングル）
  * 値: 英語の都市名
  */
 export const CITY_NAME_MAP: CityMapping = {
+  // ============================================
+  // 日本の主要都市
+  // ============================================
   // 東京
   '東京': 'Tokyo',
   'とうきょう': 'Tokyo',
@@ -132,6 +135,152 @@ export const CITY_NAME_MAP: CityMapping = {
   '奈良': 'Nara',
   'なら': 'Nara',
   'ナラ': 'Nara',
+
+  // ============================================
+  // 中国の主要都市
+  // ============================================
+
+  // 北京 (Beijing)
+  '北京': 'Beijing',
+  'běijīng': 'Beijing',
+  'ペキン': 'Beijing',
+  'ベイジン': 'Beijing',
+
+  // 上海 (Shanghai)
+  '上海': 'Shanghai',
+  'shànghǎi': 'Shanghai',
+  'シャンハイ': 'Shanghai',
+
+  // 広州 (Guangzhou)
+  '广州': 'Guangzhou',
+  '廣州': 'Guangzhou',
+  'guǎngzhōu': 'Guangzhou',
+  'カントン': 'Guangzhou',
+
+  // 深圳 (Shenzhen)
+  '深圳': 'Shenzhen',
+  'shēnzhèn': 'Shenzhen',
+  'シンセン': 'Shenzhen',
+
+  // 成都 (Chengdu)
+  '成都': 'Chengdu',
+  'chéngdū': 'Chengdu',
+  'セイト': 'Chengdu',
+
+  // 杭州 (Hangzhou)
+  '杭州': 'Hangzhou',
+  'hángzhōu': 'Hangzhou',
+  'ハンジョウ': 'Hangzhou',
+
+  // 武漢 (Wuhan)
+  '武汉': 'Wuhan',
+  '武漢': 'Wuhan',
+  'wǔhàn': 'Wuhan',
+  'ブカン': 'Wuhan',
+
+  // 西安 (Xi\'an)
+  '西安': 'Xi\'an',
+  'xīān': 'Xi\'an',
+  'シーアン': 'Xi\'an',
+
+  // 南京 (Nanjing)
+  '南京': 'Nanjing',
+  'nánjīng': 'Nanjing',
+  'ナンキン': 'Nanjing',
+
+  // 重慶 (Chongqing)
+  '重庆': 'Chongqing',
+  '重慶': 'Chongqing',
+  'chóngqìng': 'Chongqing',
+  'チョンチン': 'Chongqing',
+
+  // 天津 (Tianjin)
+  '天津': 'Tianjin',
+  'tiānjīn': 'Tianjin',
+  'テンシン': 'Tianjin',
+
+  // 香港 (Hong Kong)
+  '香港': 'Hong Kong',
+  'xiānggǎng': 'Hong Kong',
+  'ホンコン': 'Hong Kong',
+
+  // 台北 (Taipei)
+  '台北': 'Taipei',
+  '臺北': 'Taipei',
+  'táiběi': 'Taipei',
+  'タイペイ': 'Taipei',
+
+  // ============================================
+  // 韓国の主要都市
+  // ============================================
+
+  // ソウル (Seoul)
+  '서울': 'Seoul',
+  'ソウル': 'Seoul',
+  '首爾': 'Seoul',
+
+  // 釜山 (Busan)
+  '부산': 'Busan',
+  'プサン': 'Busan',
+  '釜山': 'Busan',
+
+  // 仁川 (Incheon)
+  '인천': 'Incheon',
+  'インチョン': 'Incheon',
+  '仁川': 'Incheon',
+
+  // 大邱 (Daegu)
+  '대구': 'Daegu',
+  'テグ': 'Daegu',
+  '大邱': 'Daegu',
+
+  // 大田 (Daejeon)
+  '대전': 'Daejeon',
+  'テジョン': 'Daejeon',
+  '大田': 'Daejeon',
+
+  // 光州 (Gwangju)
+  '광주': 'Gwangju',
+  'クァンジュ': 'Gwangju',
+  '光州': 'Gwangju',
+
+  // 済州 (Jeju)
+  '제주': 'Jeju',
+  'チェジュ': 'Jeju',
+  '濟州': 'Jeju',
+
+  // ============================================
+  // その他アジアの主要都市
+  // ============================================
+
+  // シンガポール
+  'シンガポール': 'Singapore',
+  '新加坡': 'Singapore',
+  'xīnjiāpō': 'Singapore',
+
+  // バンコク (Thailand)
+  'バンコク': 'Bangkok',
+  '曼谷': 'Bangkok',
+
+  // クアラルンプール (Malaysia)
+  'クアラルンプール': 'Kuala Lumpur',
+  '吉隆坡': 'Kuala Lumpur',
+
+  // ジャカルタ (Indonesia)
+  'ジャカルタ': 'Jakarta',
+  '雅加达': 'Jakarta',
+
+  // マニラ (Philippines)
+  'マニラ': 'Manila',
+  '马尼拉': 'Manila',
+
+  // ハノイ (Vietnam)
+  'ハノイ': 'Hanoi',
+  '河内': 'Hanoi',
+
+  // ホーチミン (Vietnam)
+  'ホーチミン': 'Ho Chi Minh City',
+  '胡志明市': 'Ho Chi Minh City',
 };
 
 /**

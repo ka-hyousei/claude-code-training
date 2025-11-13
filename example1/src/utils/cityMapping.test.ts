@@ -20,6 +20,33 @@ describe('cityMapping', () => {
       expect(translateCityName('キョウト')).toBe('Kyoto');
     });
 
+    it('中国語の都市名（簡体字）を英語に変換する', () => {
+      expect(translateCityName('北京')).toBe('Beijing');
+      expect(translateCityName('上海')).toBe('Shanghai');
+      expect(translateCityName('广州')).toBe('Guangzhou');
+    });
+
+    it('中国語の都市名（繁体字）を英語に変換する', () => {
+      expect(translateCityName('臺北')).toBe('Taipei');
+      expect(translateCityName('廣州')).toBe('Guangzhou');
+    });
+
+    it('中国語の都市名（ピンイン）を英語に変換する', () => {
+      expect(translateCityName('běijīng')).toBe('Beijing');
+      expect(translateCityName('shànghǎi')).toBe('Shanghai');
+    });
+
+    it('韓国語の都市名（ハングル）を英語に変換する', () => {
+      expect(translateCityName('서울')).toBe('Seoul');
+      expect(translateCityName('부산')).toBe('Busan');
+      expect(translateCityName('인천')).toBe('Incheon');
+    });
+
+    it('韓国語の都市名（カタカナ）を英語に変換する', () => {
+      expect(translateCityName('ソウル')).toBe('Seoul');
+      expect(translateCityName('プサン')).toBe('Busan');
+    });
+
     it('マッピングに存在しない都市名はそのまま返す', () => {
       expect(translateCityName('London')).toBe('London');
       expect(translateCityName('Paris')).toBe('Paris');
