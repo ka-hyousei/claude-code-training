@@ -52,38 +52,69 @@ export default function WeatherPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">天気予報アプリ</h1>
-          <p className="text-blue-100">都市名を入力して天気を確認しよう</p>
+    <div className="min-h-screen bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        {/* ヘッダー */}
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-block mb-4">
+            <div className="text-6xl sm:text-7xl">🌤️</div>
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight">
+            天気予報
+          </h1>
+          <p className="text-lg sm:text-xl text-blue-50 font-light">
+            世界中の天気を多言語で検索
+          </p>
+          <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm text-blue-100">
+            <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇯🇵 日本語</span>
+            <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇨🇳 中文</span>
+            <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇰🇷 한국어</span>
+            <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇬🇧 English</span>
+          </div>
         </div>
 
         {/* 検索フォーム */}
         <form onSubmit={handleSubmit} className="mb-8" role="search">
-          <div className="flex gap-2">
-            <label htmlFor="city-input" className="sr-only">
-              都市名
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6">
+            <label htmlFor="city-input" className="block text-sm font-medium text-gray-700 mb-2">
+              都市名を入力
             </label>
-            <input
-              id="city-input"
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="都市名を入力 (例: Tokyo)"
-              className="flex-1 px-4 py-3 rounded-lg border-2 border-blue-300 focus:border-white focus:outline-none text-gray-800 placeholder-gray-400"
-              disabled={isLoading}
-              aria-label="都市名を入力"
-              aria-required="true"
-            />
-            <button
-              type="submit"
-              disabled={isLoading || !city.trim()}
-              className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              aria-label={isLoading ? '検索中' : '天気を検索'}
-            >
-              {isLoading ? '検索中...' : '検索'}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                id="city-input"
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="例: 東京, 北京, Seoul, London..."
+                className="flex-1 px-4 py-3 sm:py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-gray-800 placeholder-gray-400 text-base sm:text-lg transition-all"
+                disabled={isLoading}
+                aria-label="都市名を入力"
+                aria-required="true"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !city.trim()}
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                aria-label={isLoading ? '検索中' : '天気を検索'}
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    検索中
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    検索
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </form>
 
@@ -123,63 +154,74 @@ export default function WeatherPage() {
 
         {/* 天気情報表示 */}
         {weather && !isLoading && (
-          <div className="bg-white rounded-lg shadow-xl p-6 animate-fadeIn">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
             {/* 都市名と国 */}
-            <div className="text-center mb-4">
-              <h2 className="text-3xl font-bold text-gray-800">
-                {weather.city}, {weather.country}
-              </h2>
-              {/* 日付と時刻 */}
-              <div className="mt-2 text-gray-600">
-                <p className="text-sm">
-                  {formatLocalTime(weather.timestamp, weather.timezone).date}
-                </p>
-                <p className="text-lg font-semibold">
-                  {formatLocalTime(weather.timestamp, weather.timezone).time}
-                  <span className="text-sm font-normal ml-2">(現地時刻)</span>
-                </p>
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 sm:p-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+                    {weather.city}
+                  </h2>
+                  <p className="text-blue-100 text-lg">{weather.country}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm sm:text-base text-blue-100">
+                    {formatLocalTime(weather.timestamp, weather.timezone).date}
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-bold mt-1">
+                    {formatLocalTime(weather.timestamp, weather.timezone).time}
+                  </p>
+                  <p className="text-xs text-blue-200 mt-1">現地時刻</p>
+                </div>
               </div>
             </div>
 
             {/* 天気アイコンと気温 */}
-            <div className="flex items-center justify-center mb-6">
-              <img
-                src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
-                alt={`${weather.description}のアイコン`}
-                className="w-32 h-32"
-                loading="lazy"
-                width={128}
-                height={128}
-              />
-              <div className="ml-4">
-                <div className="text-6xl font-bold text-gray-800" aria-label={`気温 ${weather.temperature}度`}>
-                  {weather.temperature}°C
+            <div className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8">
+                <div className="relative">
+                  <img
+                    src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
+                    alt={`${weather.description}のアイコン`}
+                    className="w-32 h-32 sm:w-40 sm:h-40 drop-shadow-lg"
+                    loading="lazy"
+                    width={160}
+                    height={160}
+                  />
                 </div>
-                <p className="text-xl text-gray-600 capitalize mt-2">
-                  {weather.description}
-                </p>
+                <div className="text-center sm:text-left">
+                  <div className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent" aria-label={`気温 ${weather.temperature}度`}>
+                    {weather.temperature}°C
+                  </div>
+                  <p className="text-xl sm:text-2xl text-gray-700 font-medium capitalize mt-2">
+                    {weather.description}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* 詳細情報 */}
-            <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-200">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-1">体感温度</p>
-                <p className="text-2xl font-bold text-gray-800">
-                  {weather.feelsLike}°C
-                </p>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-1">湿度</p>
-                <p className="text-2xl font-bold text-gray-800">
-                  {weather.humidity}%
-                </p>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-4 col-span-2">
-                <p className="text-sm text-gray-600 mb-1">風速</p>
-                <p className="text-2xl font-bold text-gray-800">
-                  {weather.windSpeed} m/s
-                </p>
+              {/* 詳細情報 */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 sm:p-5 text-center transform transition-transform hover:scale-105">
+                  <div className="text-3xl mb-2">🌡️</div>
+                  <p className="text-sm text-gray-600 mb-1 font-medium">体感温度</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    {weather.feelsLike}°C
+                  </p>
+                </div>
+                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-4 sm:p-5 text-center transform transition-transform hover:scale-105">
+                  <div className="text-3xl mb-2">💧</div>
+                  <p className="text-sm text-gray-600 mb-1 font-medium">湿度</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    {weather.humidity}%
+                  </p>
+                </div>
+                <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl p-4 sm:p-5 text-center transform transition-transform hover:scale-105">
+                  <div className="text-3xl mb-2">💨</div>
+                  <p className="text-sm text-gray-600 mb-1 font-medium">風速</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    {weather.windSpeed} m/s
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -187,13 +229,37 @@ export default function WeatherPage() {
 
         {/* 使い方のヒント */}
         {!weather && !error && !isLoading && (
-          <div className="bg-white bg-opacity-20 rounded-lg p-6 text-white">
-            <h3 className="font-semibold mb-2">💡 使い方</h3>
-            <ul className="text-sm space-y-1">
-              <li>• 都市名を英語で入力してください (例: Tokyo, London)</li>
-              <li>• 日本の都市も検索できます (例: Osaka, Sapporo)</li>
-              <li>• より正確な結果を得るには、都市名と国コードを入力してください (例: Tokyo,JP)</li>
-            </ul>
+          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 sm:p-8 text-white border border-white/30">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-2xl">💡</span> 使い方
+            </h3>
+            <div className="space-y-3 text-sm sm:text-base">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">🌏</span>
+                <div>
+                  <p className="font-semibold mb-1">多言語対応</p>
+                  <p className="text-blue-50">日本語、中国語、韓国語、英語で都市名を入力できます</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📍</span>
+                <div>
+                  <p className="font-semibold mb-1">入力例</p>
+                  <div className="text-blue-50 space-y-1">
+                    <p>• 日本語: 東京、大阪、京都</p>
+                    <p>• 中国語: 北京、上海、서울</p>
+                    <p>• 英語: Tokyo, London, Paris</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">🎯</span>
+                <div>
+                  <p className="font-semibold mb-1">より正確な検索</p>
+                  <p className="text-blue-50">都市名,国コード (例: Tokyo,JP) で検索すると精度が向上します</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
