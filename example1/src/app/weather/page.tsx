@@ -86,7 +86,7 @@ export default function WeatherPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="例: 東京, 北京, Seoul, London..."
-                className="flex-1 px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-gray-800 placeholder-gray-400 text-base transition-all"
+                className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-gray-800 placeholder-gray-400 text-base leading-6 transition-all h-[50px]"
                 disabled={isLoading}
                 aria-label="都市名を入力"
                 aria-required="true"
@@ -94,7 +94,7 @@ export default function WeatherPage() {
               <button
                 type="submit"
                 disabled={isLoading || !city.trim()}
-                className="sm:w-auto w-full px-8 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl whitespace-nowrap"
+                className="sm:w-auto w-full px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl whitespace-nowrap text-base leading-6 h-[50px]"
                 aria-label={isLoading ? '検索中' : '天気を検索'}
               >
                 {isLoading ? (
@@ -135,9 +135,9 @@ export default function WeatherPage() {
             <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6 sm:p-8">
               <div className="flex items-center gap-4">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                     <svg
-                      className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                      className="w-6 h-6 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
