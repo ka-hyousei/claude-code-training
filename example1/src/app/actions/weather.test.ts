@@ -47,7 +47,7 @@ describe('getWeather', () => {
       const result = await getWeather('Tokyo123');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error).toBe('都市名には英字、スペース、カンマ、ハイフン、ピリオドのみ使用できます');
+        expect(result.error).toBe('都市名には英字、日本語、スペース、カンマ、ハイフン、ピリオドのみ使用できます');
       }
     });
 
@@ -99,6 +99,71 @@ describe('getWeather', () => {
 
       const result = await getWeather('Tokyo,JP');
       expect(result.success).toBe(true);
+    });
+
+    it('日本語の都市名（漢字・ひらがな・カタカナ）は許可される', async () => {
+      const mockWeatherData: WeatherData = {
+        coord: { lon: 139.6917, lat: 35.6895 },
+        weather: [
+          {
+            id: 800,
+            main: 'Clear',
+            description: '晴れ',
+            icon: '01d',
+          },
+        ],
+        base: 'stations',
+        main: {
+          temp: 15,
+          feels_like: 14,
+          temp_min: 13,
+          temp_max: 17,
+          pressure: 1013,
+          humidity: 60,
+        },
+        visibility: 10000,
+        wind: {
+          speed: 3.5,
+          deg: 180,
+        },
+        clouds: {
+          all: 0,
+        },
+        dt: 1699776000,
+        sys: {
+          country: 'JP',
+          sunrise: 1699740000,
+          sunset: 1699776000,
+        },
+        timezone: 32400,
+        id: 1850144,
+        name: '東京',
+        cod: 200,
+      };
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockWeatherData,
+      });
+
+      const result = await getWeather('東京');
+      expect(result.success).toBe(true);
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockWeatherData,
+      });
+
+      const resultHiragana = await getWeather('とうきょう');
+      expect(resultHiragana.success).toBe(true);
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockWeatherData,
+      });
+
+      const resultKatakana = await getWeather('トウキョウ');
+      expect(resultKatakana.success).toBe(true);
     });
   });
 
