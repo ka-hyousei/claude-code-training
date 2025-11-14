@@ -227,32 +227,54 @@ export default function CurrencyPage() {
                   </div>
                 </div>
 
-                {/* 換算結果一覧 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {result.conversions.map((conversion) => (
-                    <div
-                      key={conversion.currency}
-                      className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg p-5 hover:shadow-xl transition-all transform hover:scale-105"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-3xl">{getCurrencyInfo(conversion.currency).flag}</span>
-                          <div>
-                            <p className="font-bold text-gray-800">{conversion.currency}</p>
-                            <p className="text-xs text-gray-500">{conversion.name}</p>
-                          </div>
-                        </div>
-                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                          1 {result.baseCurrency} = {conversion.rate.toFixed(4)}
-                        </div>
-                      </div>
-                      <div className="pt-3 border-t border-gray-200">
-                        <p className="text-2xl font-bold text-purple-600">
-                          {conversion.symbol} {formatNumber(conversion.amount)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                {/* 換算結果テーブル */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                          <th className="px-6 py-4 text-left font-bold">通貨</th>
+                          <th className="px-6 py-4 text-right font-bold">為替レート</th>
+                          <th className="px-6 py-4 text-right font-bold">換算額</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {result.conversions.map((conversion, index) => (
+                          <tr
+                            key={conversion.currency}
+                            className={`transition-colors hover:bg-purple-50 ${
+                              index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                            }`}
+                          >
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <span className="text-3xl">{getCurrencyInfo(conversion.currency).flag}</span>
+                                <div>
+                                  <p className="font-bold text-gray-800 text-lg">{conversion.currency}</p>
+                                  <p className="text-sm text-gray-500">{conversion.name}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex flex-col items-end">
+                                <p className="text-sm text-gray-600 font-medium">
+                                  1 {result.baseCurrency} =
+                                </p>
+                                <p className="text-lg font-bold text-gray-800">
+                                  {conversion.rate.toFixed(4)}
+                                </p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <p className="text-2xl font-bold text-purple-600">
+                                {conversion.symbol} {formatNumber(conversion.amount)}
+                              </p>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             )}
