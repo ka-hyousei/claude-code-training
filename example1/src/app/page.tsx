@@ -35,6 +35,13 @@ export default function Home() {
             <span className="text-2xl">📍</span>
             ジオコーディング
           </Link>
+          <Link
+            className={styles.secondary}
+            href="/currency"
+          >
+            <span className="text-2xl">💱</span>
+            通貨換算
+          </Link>
         </div>
       </main>
     </div>
