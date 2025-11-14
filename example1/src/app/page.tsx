@@ -42,6 +42,13 @@ export default function Home() {
             <span className="text-2xl">💱</span>
             通貨換算
           </Link>
+          <Link
+            className={styles.secondary}
+            href="/github"
+          >
+            <span className="text-2xl">🐙</span>
+            GitHub検索
+          </Link>
         </div>
       </main>
     </div>
