@@ -230,15 +230,15 @@ export default function CurrencyPage() {
                 {/* 換算結果テーブル */}
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full border-collapse">
                       <thead>
                         <tr className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                          <th className="px-6 py-4 text-left font-bold">通貨</th>
-                          <th className="px-6 py-4 text-right font-bold">為替レート</th>
-                          <th className="px-6 py-4 text-right font-bold">換算額</th>
+                          <th className="px-6 py-4 text-left font-bold border border-purple-400">通貨</th>
+                          <th className="px-6 py-4 text-right font-bold border border-purple-400">為替レート</th>
+                          <th className="px-6 py-4 text-right font-bold border border-purple-400">換算額</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody>
                         {result.conversions.map((conversion, index) => (
                           <tr
                             key={conversion.currency}
@@ -246,7 +246,7 @@ export default function CurrencyPage() {
                               index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                             }`}
                           >
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 border border-gray-300">
                               <div className="flex items-center gap-3">
                                 <span className="text-3xl">{getCurrencyInfo(conversion.currency).flag}</span>
                                 <div>
@@ -255,7 +255,7 @@ export default function CurrencyPage() {
                                 </div>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-right">
+                            <td className="px-6 py-4 text-right border border-gray-300">
                               <div className="flex flex-col items-end">
                                 <p className="text-sm text-gray-600 font-medium">
                                   1 {result.baseCurrency} =
@@ -265,7 +265,7 @@ export default function CurrencyPage() {
                                 </p>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-right">
+                            <td className="px-6 py-4 text-right border border-gray-300">
                               <p className="text-2xl font-bold text-purple-600">
                                 {conversion.symbol} {formatNumber(conversion.amount)}
                               </p>

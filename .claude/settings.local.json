@@ -10,7 +10,8 @@
       "Bash(npm test:*)",
       "Bash(cat:*)",
       "Bash(mkdir:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(exit 0)"
     ],
     "deny": [],
     "ask": []
