@@ -63,6 +63,7 @@
 .ctas {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
   max-width: 440px;
   gap: 16px;
@@ -81,6 +82,8 @@
   cursor: pointer;
   width: fit-content;
   font-weight: 500;
+  white-space: nowrap;
+  gap: 8px;
 }
 
 a.primary {

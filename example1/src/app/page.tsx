@@ -49,6 +49,27 @@ export default function Home() {
             <span className="text-2xl">🐙</span>
             GitHub検索
           </Link>
+          <Link
+            className={styles.secondary}
+            href="/todo"
+          >
+            <span className="text-2xl">✅</span>
+            TODOリスト
+          </Link>
+          <Link
+            className={styles.secondary}
+            href="/markdown"
+          >
+            <span className="text-2xl">📝</span>
+            Markdown
+          </Link>
+          <Link
+            className={styles.secondary}
+            href="/gallery"
+          >
+            <span className="text-2xl">🖼️</span>
+            画像検索
+          </Link>
         </div>
       </main>
     </div>
