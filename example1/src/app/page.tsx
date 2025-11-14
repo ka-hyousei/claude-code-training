@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -14,51 +15,26 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
+          <h1>Claude Code Training Project</h1>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            このプロジェクトでは、Claude Codeを使った開発を体験できます。
           </p>
         </div>
         <div className={styles.ctas}>
-          <a
+          <Link
             className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/weather"
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
+            <span className="text-2xl">🌤️</span>
+            天気予報
+          </Link>
+          <Link
             className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/geocoding"
           >
-            Documentation
-          </a>
+            <span className="text-2xl">📍</span>
+            ジオコーディング
+          </Link>
         </div>
       </main>
     </div>
