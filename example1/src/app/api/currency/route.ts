@@ -1,25 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from "next/server";
 import type {
   CurrencyApiResponse,
-  ExchangeRateApiResponse,
   CurrencyConversion,
-} from '@/types/currency';
-import { getCurrencyInfo, MAJOR_CURRENCIES } from '@/types/currency';
+  ExchangeRateApiResponse,
+} from "@/types/currency";
+import { getCurrencyInfo, MAJOR_CURRENCIES } from "@/types/currency";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const baseCurrency = searchParams.get('from');
-  const amount = searchParams.get('amount');
-  const targetCurrenciesParam = searchParams.get('to');
+  const baseCurrency = searchParams.get("from");
+  const amount = searchParams.get("amount");
+  const targetCurrenciesParam = searchParams.get("to");
 
   // バリデーション
-  if (!baseCurrency || baseCurrency.trim() === '') {
+  if (!baseCurrency || baseCurrency.trim() === "") {
     return NextResponse.json<CurrencyApiResponse>(
       {
         success: false,
-        error: '基準通貨を選択してください',
+        error: "基準通貨を選択してください",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -27,9 +27,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json<CurrencyApiResponse>(
       {
         success: false,
-        error: '有効な金額を入力してください',
+        error: "有効な金額を入力してください",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -48,21 +48,21 @@ export async function GET(request: NextRequest) {
     const data: ExchangeRateApiResponse = await response.json();
 
     // APIレスポンスの確認
-    if (data.result === 'error') {
+    if (data.result === "error") {
       return NextResponse.json<CurrencyApiResponse>({
         success: false,
-        error: '為替レートの取得に失敗しました。通貨コードを確認してください',
+        error: "為替レートの取得に失敗しました。通貨コードを確認してください",
       });
     }
 
     // 換算先通貨のリスト
     let targetCurrencies: string[];
-    if (targetCurrenciesParam && targetCurrenciesParam.trim() !== '') {
-      targetCurrencies = targetCurrenciesParam.split(',').map((c) => c.trim().toUpperCase());
+    if (targetCurrenciesParam && targetCurrenciesParam.trim() !== "") {
+      targetCurrencies = targetCurrenciesParam.split(",").map((c) => c.trim().toUpperCase());
     } else {
       // デフォルトは主要通貨（基準通貨を除く）
       targetCurrencies = MAJOR_CURRENCIES.filter((c) => c.code !== baseCurrency.toUpperCase()).map(
-        (c) => c.code
+        (c) => c.code,
       );
     }
 
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     if (conversions.length === 0) {
       return NextResponse.json<CurrencyApiResponse>({
         success: false,
-        error: '指定された通貨の為替レートが見つかりませんでした',
+        error: "指定された通貨の為替レートが見つかりませんでした",
       });
     }
 
@@ -98,13 +98,13 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Currency API error:', error);
+    console.error("Currency API error:", error);
     return NextResponse.json<CurrencyApiResponse>(
       {
         success: false,
-        error: '為替レートの取得に失敗しました。しばらく待ってから再度お試しください',
+        error: "為替レートの取得に失敗しました。しばらく待ってから再度お試しください",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

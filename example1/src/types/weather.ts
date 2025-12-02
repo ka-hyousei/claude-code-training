@@ -54,11 +54,11 @@ export type WeatherResponse = WeatherData | WeatherError;
 
 // 型ガード関数
 export function isWeatherError(data: WeatherResponse): data is WeatherError {
-  return 'message' in data && typeof data.message === 'string' && !('weather' in data);
+  return "message" in data && typeof data.message === "string" && !("weather" in data);
 }
 
 export function isWeatherData(data: WeatherResponse): data is WeatherData {
-  return 'weather' in data && Array.isArray(data.weather);
+  return "weather" in data && Array.isArray(data.weather);
 }
 
 // 天気情報の表示用型

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import type { ImageGalleryApiResponse, UnsplashImage } from '@/types/unsplash';
+import Image from "next/image";
+import { useState } from "react";
+import type { ImageGalleryApiResponse, UnsplashImage } from "@/types/unsplash";
 
 export default function GalleryPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [images, setImages] = useState<UnsplashImage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,9 @@ export default function GalleryPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/api/images?query=${encodeURIComponent(query)}&page=${pageNum}&per_page=12`);
+      const response = await fetch(
+        `/api/images?query=${encodeURIComponent(query)}&page=${pageNum}&per_page=12`,
+      );
       const data: ImageGalleryApiResponse = await response.json();
 
       if (data.success && data.data) {
@@ -35,14 +37,14 @@ export default function GalleryPage() {
         setPage(pageNum);
         setTotalPages(data.data.totalPages);
       } else {
-        setError(data.error || '画像の取得に失敗しました');
+        setError(data.error || "画像の取得に失敗しました");
         if (pageNum === 1) {
           setImages([]);
         }
       }
     } catch (err) {
-      setError('予期しないエラーが発生しました');
-      console.error('Image search error:', err);
+      setError("予期しないエラーが発生しました");
+      console.error("Image search error:", err);
       if (pageNum === 1) {
         setImages([]);
       }
@@ -90,7 +92,7 @@ export default function GalleryPage() {
                 type="submit"
                 disabled={isLoading || !query.trim()}
                 className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-700 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                aria-label={isLoading ? '検索中' : '画像を検索'}
+                aria-label={isLoading ? "検索中" : "画像を検索"}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
@@ -165,16 +167,14 @@ export default function GalleryPage() {
                   <div className="relative aspect-square">
                     <Image
                       src={image.urls.small}
-                      alt={image.alt_description || image.description || 'Unsplash image'}
+                      alt={image.alt_description || image.description || "Unsplash image"}
                       fill
                       className="object-cover"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-0 left-0 right-0 p-3 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-sm font-medium truncate">
-                        By {image.user.name}
-                      </p>
+                      <p className="text-sm font-medium truncate">By {image.user.name}</p>
                       {image.likes > 0 && (
                         <p className="text-xs flex items-center gap-1 mt-1">
                           ❤️ {image.likes.toLocaleString()}
@@ -194,7 +194,7 @@ export default function GalleryPage() {
                   disabled={isLoading}
                   className="px-8 py-3 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl transition-all border border-white/30 disabled:opacity-50"
                 >
-                  {isLoading ? '読み込み中...' : 'もっと見る'}
+                  {isLoading ? "読み込み中..." : "もっと見る"}
                 </button>
               </div>
             )}
@@ -212,7 +212,9 @@ export default function GalleryPage() {
                 <span className="text-xl">1️⃣</span>
                 <div>
                   <p className="font-semibold mb-1">キーワードを入力</p>
-                  <p className="text-purple-100">検索したいキーワードを英語で入力 (例: nature, cat, mountain)</p>
+                  <p className="text-purple-100">
+                    検索したいキーワードを英語で入力 (例: nature, cat, mountain)
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -226,7 +228,9 @@ export default function GalleryPage() {
                 <span className="text-xl">3️⃣</span>
                 <div>
                   <p className="font-semibold mb-1">もっと見る</p>
-                  <p className="text-purple-100">下部の「もっと見る」ボタンでさらに画像を読み込み</p>
+                  <p className="text-purple-100">
+                    下部の「もっと見る」ボタンでさらに画像を読み込み
+                  </p>
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-white/30">
@@ -251,14 +255,21 @@ export default function GalleryPage() {
                 aria-label="閉じる"
               >
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
               <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
                 <div className="relative aspect-video">
                   <Image
                     src={selectedImage.urls.regular}
-                    alt={selectedImage.alt_description || selectedImage.description || 'Unsplash image'}
+                    alt={
+                      selectedImage.alt_description || selectedImage.description || "Unsplash image"
+                    }
                     fill
                     className="object-contain"
                     sizes="90vw"

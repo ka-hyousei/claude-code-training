@@ -44,18 +44,18 @@ export interface CurrencyInfo {
 
 // 主要通貨リスト
 export const MAJOR_CURRENCIES: CurrencyInfo[] = [
-  { code: 'USD', name: 'アメリカドル', symbol: '$', flag: '🇺🇸' },
-  { code: 'EUR', name: 'ユーロ', symbol: '€', flag: '🇪🇺' },
-  { code: 'JPY', name: '日本円', symbol: '¥', flag: '🇯🇵' },
-  { code: 'GBP', name: 'イギリスポンド', symbol: '£', flag: '🇬🇧' },
-  { code: 'CNY', name: '中国元', symbol: '¥', flag: '🇨🇳' },
-  { code: 'KRW', name: '韓国ウォン', symbol: '₩', flag: '🇰🇷' },
-  { code: 'AUD', name: 'オーストラリアドル', symbol: 'A$', flag: '🇦🇺' },
-  { code: 'CAD', name: 'カナダドル', symbol: 'C$', flag: '🇨🇦' },
-  { code: 'CHF', name: 'スイスフラン', symbol: 'Fr', flag: '🇨🇭' },
-  { code: 'HKD', name: '香港ドル', symbol: 'HK$', flag: '🇭🇰' },
-  { code: 'SGD', name: 'シンガポールドル', symbol: 'S$', flag: '🇸🇬' },
-  { code: 'INR', name: 'インドルピー', symbol: '₹', flag: '🇮🇳' },
+  { code: "USD", name: "アメリカドル", symbol: "$", flag: "🇺🇸" },
+  { code: "EUR", name: "ユーロ", symbol: "€", flag: "🇪🇺" },
+  { code: "JPY", name: "日本円", symbol: "¥", flag: "🇯🇵" },
+  { code: "GBP", name: "イギリスポンド", symbol: "£", flag: "🇬🇧" },
+  { code: "CNY", name: "中国元", symbol: "¥", flag: "🇨🇳" },
+  { code: "KRW", name: "韓国ウォン", symbol: "₩", flag: "🇰🇷" },
+  { code: "AUD", name: "オーストラリアドル", symbol: "A$", flag: "🇦🇺" },
+  { code: "CAD", name: "カナダドル", symbol: "C$", flag: "🇨🇦" },
+  { code: "CHF", name: "スイスフラン", symbol: "Fr", flag: "🇨🇭" },
+  { code: "HKD", name: "香港ドル", symbol: "HK$", flag: "🇭🇰" },
+  { code: "SGD", name: "シンガポールドル", symbol: "S$", flag: "🇸🇬" },
+  { code: "INR", name: "インドルピー", symbol: "₹", flag: "🇮🇳" },
 ];
 
 // 通貨コードから情報を取得
@@ -68,6 +68,6 @@ export function getCurrencyInfo(code: string): CurrencyInfo {
     code,
     name: code,
     symbol: code,
-    flag: '🌍',
+    flag: "🌍",
   };
 }

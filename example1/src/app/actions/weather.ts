@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import type { WeatherData, WeatherDisplay } from '@/types/weather';
-import { isWeatherError, isWeatherData } from '@/types/weather';
-import { translateCityName } from '@/utils/cityMapping';
+import type { WeatherData, WeatherDisplay } from "@/types/weather";
+import { isWeatherData, isWeatherError } from "@/types/weather";
+import { translateCityName } from "@/utils/cityMapping";
 
 /**
  * 都市名から天気情報を取得するServer Action
@@ -10,7 +10,7 @@ import { translateCityName } from '@/utils/cityMapping';
  * @returns 天気情報またはエラーメッセージ
  */
 export async function getWeather(
-  city: string
+  city: string,
 ): Promise<{ success: true; data: WeatherDisplay } | { success: false; error: string }> {
   // 入力バリデーション
   const trimmedCity = city.trim();
@@ -18,14 +18,14 @@ export async function getWeather(
   if (!trimmedCity) {
     return {
       success: false,
-      error: '都市名を入力してください',
+      error: "都市名を入力してください",
     };
   }
 
   if (trimmedCity.length > 100) {
     return {
       success: false,
-      error: '都市名が長すぎます',
+      error: "都市名が長すぎます",
     };
   }
 
@@ -34,10 +34,15 @@ export async function getWeather(
   // 韓国語: ハングル(\uAC00-\uD7AF)
   // 中国語: ピンイン声調記号(\u0100-\u017F)
   // 英字、スペース、カンマ、ハイフン、ピリオド、アポストロフィを許可
-  if (!/^[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF\u0100-\u017F\s,.'\-]+$/.test(trimmedCity)) {
+  if (
+    !/^[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF\u0100-\u017F\s,.'-]+$/.test(
+      trimmedCity,
+    )
+  ) {
     return {
       success: false,
-      error: '都市名には英字、日本語、中国語、韓国語、スペース、カンマ、ハイフン、ピリオドのみ使用できます',
+      error:
+        "都市名には英字、日本語、中国語、韓国語、スペース、カンマ、ハイフン、ピリオドのみ使用できます",
     };
   }
 
@@ -46,7 +51,7 @@ export async function getWeather(
   if (!apiKey) {
     return {
       success: false,
-      error: 'API キーが設定されていません。環境変数 OPENWEATHER_API_KEY を設定してください。',
+      error: "API キーが設定されていません。環境変数 OPENWEATHER_API_KEY を設定してください。",
     };
   }
 
@@ -58,14 +63,14 @@ export async function getWeather(
     const params = new URLSearchParams({
       q: englishCityName,
       appid: apiKey,
-      units: 'metric',
-      lang: 'ja',
+      units: "metric",
+      lang: "ja",
     });
     const url = `https://api.openweathermap.org/data/2.5/weather?${params.toString()}`;
 
     const response = await fetch(url, {
       // Next.js 15以降のデフォルトはno-storeだが、明示的に指定
-      cache: 'no-store',
+      cache: "no-store",
     });
 
     // エラーレスポンスの処理（response.okを先にチェック）
@@ -74,7 +79,7 @@ export async function getWeather(
       if (isWeatherError(errorData)) {
         return {
           success: false,
-          error: errorData.message || '天気情報の取得に失敗しました',
+          error: errorData.message || "天気情報の取得に失敗しました",
         };
       }
       return {
@@ -89,7 +94,7 @@ export async function getWeather(
     if (!isWeatherData(data)) {
       return {
         success: false,
-        error: '天気データの形式が不正です',
+        error: "天気データの形式が不正です",
       };
     }
 
@@ -97,7 +102,7 @@ export async function getWeather(
     if (!data.weather || data.weather.length === 0) {
       return {
         success: false,
-        error: '天気データが不完全です',
+        error: "天気データが不完全です",
       };
     }
 
@@ -120,10 +125,10 @@ export async function getWeather(
       data: displayData,
     };
   } catch (error) {
-    console.error('Weather API Error:', error);
+    console.error("Weather API Error:", error);
     return {
       success: false,
-      error: 'ネットワークエラーが発生しました。しばらくしてから再度お試しください。',
+      error: "ネットワークエラーが発生しました。しばらくしてから再度お試しください。",
     };
   }
 }

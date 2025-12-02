@@ -1,25 +1,25 @@
-import { describe, it, expect } from 'vitest';
-import { GET } from './route';
+import { describe, expect, it } from "vitest";
+import { GET } from "./route";
 
-describe('GET /api/health', () => {
-  it('200ステータスコードを返すこと', async () => {
+describe("GET /api/health", () => {
+  it("200ステータスコードを返すこと", async () => {
     const response = await GET();
     expect(response.status).toBe(200);
   });
 
-  it('レスポンスボディにstatusフィールドが含まれること', async () => {
+  it("レスポンスボディにstatusフィールドが含まれること", async () => {
     const response = await GET();
     const body = await response.json();
-    expect(body.status).toBe('ok');
+    expect(body.status).toBe("ok");
   });
 
-  it('レスポンスボディにtimestampフィールドが含まれること', async () => {
+  it("レスポンスボディにtimestampフィールドが含まれること", async () => {
     const response = await GET();
     const body = await response.json();
-    expect(body).toHaveProperty('timestamp');
+    expect(body).toHaveProperty("timestamp");
   });
 
-  it('timestampがISO 8601形式であること', async () => {
+  it("timestampがISO 8601形式であること", async () => {
     const response = await GET();
     const body = await response.json();
     // ISO 8601形式: YYYY-MM-DDTHH:mm:ss.sssZ
@@ -27,9 +27,9 @@ describe('GET /api/health', () => {
     expect(body.timestamp).toMatch(iso8601Regex);
   });
 
-  it('レスポンスのContent-TypeがJSONであること', async () => {
+  it("レスポンスのContent-TypeがJSONであること", async () => {
     const response = await GET();
-    const contentType = response.headers.get('content-type');
-    expect(contentType).toContain('application/json');
+    const contentType = response.headers.get("content-type");
+    expect(contentType).toContain("application/json");
   });
 });

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { getWeather } from '@/app/actions/weather';
-import type { WeatherDisplay } from '@/types/weather';
+import { useState } from "react";
+import { getWeather } from "@/app/actions/weather";
+import type { WeatherDisplay } from "@/types/weather";
 
 export default function WeatherPage() {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState<WeatherDisplay | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +26,8 @@ export default function WeatherPage() {
         setError(result.error);
       }
     } catch (err) {
-      setError('予期しないエラーが発生しました');
-      console.error('Unexpected error:', err);
+      setError("予期しないエラーが発生しました");
+      console.error("Unexpected error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -40,10 +40,10 @@ export default function WeatherPage() {
 
     // UTC時刻として扱い、日時をフォーマット
     const year = localTime.getUTCFullYear();
-    const month = String(localTime.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(localTime.getUTCDate()).padStart(2, '0');
-    const hours = String(localTime.getUTCHours()).padStart(2, '0');
-    const minutes = String(localTime.getUTCMinutes()).padStart(2, '0');
+    const month = String(localTime.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(localTime.getUTCDate()).padStart(2, "0");
+    const hours = String(localTime.getUTCHours()).padStart(2, "0");
+    const minutes = String(localTime.getUTCMinutes()).padStart(2, "0");
 
     return {
       date: `${year}年${month}月${day}日`,
@@ -62,9 +62,7 @@ export default function WeatherPage() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight">
             天気予報
           </h1>
-          <p className="text-lg sm:text-xl text-blue-50 font-light">
-            世界中の天気を多言語で検索
-          </p>
+          <p className="text-lg sm:text-xl text-blue-50 font-light">世界中の天気を多言語で検索</p>
           <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm text-blue-100">
             <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇯🇵 日本語</span>
             <span className="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🇨🇳 中文</span>
@@ -95,7 +93,7 @@ export default function WeatherPage() {
                 type="submit"
                 disabled={isLoading || !city.trim()}
                 className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                aria-label={isLoading ? '検索中' : '天気を検索'}
+                aria-label={isLoading ? "検索中" : "天気を検索"}
               >
                 {/* グラデーションオーバーレイ */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -108,8 +106,20 @@ export default function WeatherPage() {
                   {isLoading ? (
                     <span className="flex items-center justify-center gap-3">
                       <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       <span className="text-base tracking-wide">検索中...</span>
                     </span>
@@ -142,7 +152,11 @@ export default function WeatherPage() {
 
         {/* ローディング表示 */}
         {isLoading && (
-          <div className="bg-white rounded-lg shadow-xl p-8 text-center" role="status" aria-live="polite">
+          <div
+            className="bg-white rounded-lg shadow-xl p-8 text-center"
+            role="status"
+            aria-live="polite"
+          >
             <div
               className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"
               aria-label="読み込み中"
@@ -175,12 +189,8 @@ export default function WeatherPage() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
-                    検索エラー
-                  </h3>
-                  <p className="text-red-50 text-sm sm:text-base">
-                    天気情報を取得できませんでした
-                  </p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">検索エラー</h3>
+                  <p className="text-red-50 text-sm sm:text-base">天気情報を取得できませんでした</p>
                 </div>
               </div>
             </div>
@@ -189,9 +199,7 @@ export default function WeatherPage() {
               <div className="flex items-start gap-3 mb-6">
                 <div className="flex-shrink-0 text-2xl">⚠️</div>
                 <div>
-                  <p className="text-gray-800 font-medium text-base sm:text-lg mb-2">
-                    {error}
-                  </p>
+                  <p className="text-gray-800 font-medium text-base sm:text-lg mb-2">{error}</p>
                 </div>
               </div>
 
@@ -236,9 +244,7 @@ export default function WeatherPage() {
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 sm:p-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold mb-2">
-                    {weather.city}
-                  </h2>
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-2">{weather.city}</h2>
                   <p className="text-blue-100 text-lg">{weather.country}</p>
                 </div>
                 <div className="text-right">
@@ -267,7 +273,10 @@ export default function WeatherPage() {
                   />
                 </div>
                 <div className="text-center sm:text-left">
-                  <div className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent" aria-label={`気温 ${weather.temperature}度`}>
+                  <div
+                    className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+                    aria-label={`気温 ${weather.temperature}度`}
+                  >
                     {weather.temperature}°C
                   </div>
                   <p className="text-xl sm:text-2xl text-gray-700 font-medium capitalize mt-2">
@@ -333,7 +342,9 @@ export default function WeatherPage() {
                 <span className="text-xl">🎯</span>
                 <div>
                   <p className="font-semibold mb-1">より正確な検索</p>
-                  <p className="text-blue-50">都市名,国コード (例: Tokyo,JP) で検索すると精度が向上します</p>
+                  <p className="text-blue-50">
+                    都市名,国コード (例: Tokyo,JP) で検索すると精度が向上します
+                  </p>
                 </div>
               </div>
             </div>

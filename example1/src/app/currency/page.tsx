@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import type { CurrencyApiResponse } from '@/types/currency';
-import { MAJOR_CURRENCIES, getCurrencyInfo } from '@/types/currency';
+import { useState } from "react";
+import type { CurrencyApiResponse } from "@/types/currency";
+import { getCurrencyInfo, MAJOR_CURRENCIES } from "@/types/currency";
 
 export default function CurrencyPage() {
-  const [amount, setAmount] = useState('100');
-  const [baseCurrency, setBaseCurrency] = useState('USD');
-  const [result, setResult] = useState<CurrencyApiResponse['data'] | null>(null);
+  const [amount, setAmount] = useState("100");
+  const [baseCurrency, setBaseCurrency] = useState("USD");
+  const [result, setResult] = useState<CurrencyApiResponse["data"] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,18 +20,18 @@ export default function CurrencyPage() {
 
     try {
       const response = await fetch(
-        `/api/currency?from=${encodeURIComponent(baseCurrency)}&amount=${encodeURIComponent(amount)}`
+        `/api/currency?from=${encodeURIComponent(baseCurrency)}&amount=${encodeURIComponent(amount)}`,
       );
       const data: CurrencyApiResponse = await response.json();
 
       if (data.success && data.data) {
         setResult(data.data);
       } else {
-        setError(data.error || '通貨換算に失敗しました');
+        setError(data.error || "通貨換算に失敗しました");
       }
     } catch (err) {
-      setError('予期しないエラーが発生しました');
-      console.error('Currency conversion error:', err);
+      setError("予期しないエラーが発生しました");
+      console.error("Currency conversion error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +39,7 @@ export default function CurrencyPage() {
 
   // 数値をカンマ区切りでフォーマット
   const formatNumber = (num: number) => {
-    return new Intl.NumberFormat('ja-JP', {
+    return new Intl.NumberFormat("ja-JP", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(num);
@@ -64,7 +64,10 @@ export default function CurrencyPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* 左側: 入力フォーム */}
           <div className="lg:col-span-1">
-            <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sticky top-8">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sticky top-8"
+            >
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <span className="text-2xl">💰</span>
                 換算設定
@@ -72,7 +75,10 @@ export default function CurrencyPage() {
 
               {/* 金額入力 */}
               <div className="mb-4">
-                <label htmlFor="amount-input" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="amount-input"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   金額
                 </label>
                 <input
@@ -92,7 +98,10 @@ export default function CurrencyPage() {
 
               {/* 基準通貨選択 */}
               <div className="mb-6">
-                <label htmlFor="currency-select" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="currency-select"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   基準通貨
                 </label>
                 <select
@@ -116,7 +125,7 @@ export default function CurrencyPage() {
                 type="submit"
                 disabled={isLoading || !amount || Number(amount) <= 0}
                 className="group relative w-full px-6 py-3 bg-gradient-to-br from-purple-500 via-pink-600 to-red-500 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                aria-label={isLoading ? '換算中' : '通貨を換算'}
+                aria-label={isLoading ? "換算中" : "通貨を換算"}
               >
                 {/* グラデーションオーバーレイ */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -181,7 +190,12 @@ export default function CurrencyPage() {
                   <div className="flex items-center gap-4">
                     <div className="flex-shrink-0">
                       <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -209,19 +223,24 @@ export default function CurrencyPage() {
                     <div>
                       <p className="text-sm text-gray-600 mb-1">換算元</p>
                       <div className="flex items-center gap-3">
-                        <span className="text-4xl">{getCurrencyInfo(result.baseCurrency).flag}</span>
+                        <span className="text-4xl">
+                          {getCurrencyInfo(result.baseCurrency).flag}
+                        </span>
                         <div>
                           <p className="text-2xl font-bold text-gray-800">
-                            {getCurrencyInfo(result.baseCurrency).symbol} {formatNumber(result.baseAmount)}
+                            {getCurrencyInfo(result.baseCurrency).symbol}{" "}
+                            {formatNumber(result.baseAmount)}
                           </p>
-                          <p className="text-sm text-gray-600">{getCurrencyInfo(result.baseCurrency).name}</p>
+                          <p className="text-sm text-gray-600">
+                            {getCurrencyInfo(result.baseCurrency).name}
+                          </p>
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500">最終更新</p>
                       <p className="text-sm text-gray-600">
-                        {new Date(result.lastUpdated).toLocaleString('ja-JP')}
+                        {new Date(result.lastUpdated).toLocaleString("ja-JP")}
                       </p>
                     </div>
                   </div>
@@ -233,9 +252,15 @@ export default function CurrencyPage() {
                     <table className="w-full border-collapse">
                       <thead>
                         <tr className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                          <th className="px-6 py-4 text-left font-bold border border-purple-400">通貨</th>
-                          <th className="px-6 py-4 text-right font-bold border border-purple-400">為替レート</th>
-                          <th className="px-6 py-4 text-right font-bold border border-purple-400">換算額</th>
+                          <th className="px-6 py-4 text-left font-bold border border-purple-400">
+                            通貨
+                          </th>
+                          <th className="px-6 py-4 text-right font-bold border border-purple-400">
+                            為替レート
+                          </th>
+                          <th className="px-6 py-4 text-right font-bold border border-purple-400">
+                            換算額
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -243,14 +268,18 @@ export default function CurrencyPage() {
                           <tr
                             key={conversion.currency}
                             className={`transition-colors hover:bg-purple-50 ${
-                              index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                              index % 2 === 0 ? "bg-white" : "bg-gray-50"
                             }`}
                           >
                             <td className="px-6 py-4 border border-gray-300">
                               <div className="flex items-center gap-3">
-                                <span className="text-3xl">{getCurrencyInfo(conversion.currency).flag}</span>
+                                <span className="text-3xl">
+                                  {getCurrencyInfo(conversion.currency).flag}
+                                </span>
                                 <div>
-                                  <p className="font-bold text-gray-800 text-lg">{conversion.currency}</p>
+                                  <p className="font-bold text-gray-800 text-lg">
+                                    {conversion.currency}
+                                  </p>
                                   <p className="text-sm text-gray-500">{conversion.name}</p>
                                 </div>
                               </div>
