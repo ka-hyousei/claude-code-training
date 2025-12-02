@@ -1,18 +1,19 @@
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // react-markdownをモック
-jest.mock('react-markdown', () => ({
+vi.mock('react-markdown', () => ({
   __esModule: true,
   default: ({ children }: { children: string }) => <div>{children}</div>,
 }));
 
-jest.mock('remark-gfm', () => ({
+vi.mock('remark-gfm', () => ({
   __esModule: true,
   default: () => {},
 }));
 
-jest.mock('rehype-highlight', () => ({
+vi.mock('rehype-highlight', () => ({
   __esModule: true,
   default: () => {},
 }));
@@ -41,16 +42,16 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 // URL.createObjectURL のモック
-global.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
-global.URL.revokeObjectURL = jest.fn();
+global.URL.createObjectURL = vi.fn(() => 'blob:mock-url');
+global.URL.revokeObjectURL = vi.fn();
 
 // confirm のモック
-global.confirm = jest.fn(() => true);
+global.confirm = vi.fn(() => true);
 
 describe('Markdown Page', () => {
   beforeEach(() => {
     localStorageMock.clear();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('初期表示', () => {
@@ -141,7 +142,7 @@ describe('Markdown Page', () => {
   describe('ボタン機能', () => {
     it('クリアボタンでテキストがクリアされる', async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(true);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(true);
 
       render(<MarkdownPage />);
 
@@ -160,7 +161,7 @@ describe('Markdown Page', () => {
 
     it('クリア確認でキャンセルした場合はクリアされない', async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(false);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(false);
 
       render(<MarkdownPage />);
 
@@ -176,7 +177,7 @@ describe('Markdown Page', () => {
 
     it('リセットボタンでデフォルトテキストに戻る', async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(true);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(true);
 
       render(<MarkdownPage />);
 
@@ -195,9 +196,9 @@ describe('Markdown Page', () => {
 
     it('エクスポートボタンでファイルがダウンロードされる', async () => {
       const user = userEvent.setup();
-      const createElementSpy = jest.spyOn(document, 'createElement');
-      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
-      const removeChildSpy = jest.spyOn(document.body, 'removeChild');
+      const createElementSpy = vi.spyOn(document, 'createElement');
+      const appendChildSpy = vi.spyOn(document.body, 'appendChild');
+      const removeChildSpy = vi.spyOn(document.body, 'removeChild');
 
       render(<MarkdownPage />);
 

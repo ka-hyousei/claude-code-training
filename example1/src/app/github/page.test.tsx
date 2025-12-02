@@ -1,13 +1,14 @@
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GitHubPage from './page';
 
 // fetch のモック
-global.fetch = jest.fn();
+global.fetch = vi.fn();
 
 describe('GitHub Page', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('初期表示', () => {
@@ -94,7 +95,7 @@ describe('GitHub Page', () => {
         },
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -149,7 +150,7 @@ describe('GitHub Page', () => {
         },
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -178,7 +179,7 @@ describe('GitHub Page', () => {
         error: 'ユーザーが見つかりませんでした',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -201,7 +202,7 @@ describe('GitHub Page', () => {
     it('ネットワークエラー時にエラーが表示される', async () => {
       const user = userEvent.setup();
 
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+      (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network error'));
 
       render(<GitHubPage />);
 
@@ -221,7 +222,7 @@ describe('GitHub Page', () => {
     it('検索中はローディング表示がされる', async () => {
       const user = userEvent.setup();
 
-      (global.fetch as jest.Mock).mockImplementation(
+      (global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
         () => new Promise(resolve => setTimeout(resolve, 100))
       );
 

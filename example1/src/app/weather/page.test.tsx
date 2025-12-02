@@ -1,16 +1,17 @@
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import WeatherPage from './page';
 import { getWeather } from '@/app/actions/weather';
 
 // Server Action のモック
-jest.mock('@/app/actions/weather', () => ({
-  getWeather: jest.fn(),
+vi.mock('@/app/actions/weather', () => ({
+  getWeather: vi.fn(),
 }));
 
 describe('Weather Page', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('初期表示', () => {
@@ -79,7 +80,7 @@ describe('Weather Page', () => {
         },
       };
 
-      (getWeather as jest.Mock).mockResolvedValueOnce(mockWeather);
+      (getWeather as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockWeather);
 
       render(<WeatherPage />);
 
@@ -107,7 +108,7 @@ describe('Weather Page', () => {
         error: '都市が見つかりませんでした',
       };
 
-      (getWeather as jest.Mock).mockResolvedValueOnce(mockError);
+      (getWeather as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockError);
 
       render(<WeatherPage />);
 
@@ -127,7 +128,7 @@ describe('Weather Page', () => {
     it('例外発生時にエラーが表示される', async () => {
       const user = userEvent.setup();
 
-      (getWeather as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+      (getWeather as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network error'));
 
       render(<WeatherPage />);
 
@@ -151,7 +152,7 @@ describe('Weather Page', () => {
         error: '都市が見つかりませんでした',
       };
 
-      (getWeather as jest.Mock).mockResolvedValueOnce(mockError);
+      (getWeather as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockError);
 
       render(<WeatherPage />);
 
@@ -173,7 +174,7 @@ describe('Weather Page', () => {
     it('検索中はローディング表示がされる', async () => {
       const user = userEvent.setup();
 
-      (getWeather as jest.Mock).mockImplementation(
+      (getWeather as ReturnType<typeof vi.fn>).mockImplementation(
         () => new Promise(resolve => setTimeout(() => resolve({ success: true, data: {} }), 100))
       );
 

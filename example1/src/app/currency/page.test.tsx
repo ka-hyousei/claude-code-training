@@ -1,13 +1,22 @@
+/**
+ * @vitest-environment jsdom
+ */
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyPage from './page';
 
 // fetch のモック
-global.fetch = jest.fn();
+const mockFetch = vi.fn();
 
 describe('Currency Page', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.stubGlobal('fetch', mockFetch);
+    mockFetch.mockReset();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   describe('初期表示', () => {
@@ -75,10 +84,12 @@ describe('Currency Page', () => {
         },
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockResponse,
-      });
+      mockFetch.mockResolvedValueOnce(
+        new Response(JSON.stringify(mockResponse), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
 
       render(<CurrencyPage />);
 
@@ -87,7 +98,7 @@ describe('Currency Page', () => {
 
       await waitFor(() => {
         expect(screen.getByText('換算元')).toBeInTheDocument();
-      });
+      }, { timeout: 3000 });
 
       expect(screen.getAllByText(/日本円/).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/ユーロ/).length).toBeGreaterThan(0);
@@ -105,10 +116,12 @@ describe('Currency Page', () => {
         },
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockResponse,
-      });
+      mockFetch.mockResolvedValueOnce(
+        new Response(JSON.stringify(mockResponse), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
 
       render(<CurrencyPage />);
 
@@ -120,10 +133,10 @@ describe('Currency Page', () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
+        expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining('amount=200')
         );
-      });
+      }, { timeout: 3000 });
     });
 
     it('基準通貨を変更して換算できる', async () => {
@@ -138,10 +151,12 @@ describe('Currency Page', () => {
         },
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockResponse,
-      });
+      mockFetch.mockResolvedValueOnce(
+        new Response(JSON.stringify(mockResponse), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
 
       render(<CurrencyPage />);
 
@@ -152,10 +167,10 @@ describe('Currency Page', () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
+        expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining('from=JPY')
         );
-      });
+      }, { timeout: 3000 });
     });
 
     it('換算失敗時にエラーが表示される', async () => {
@@ -165,10 +180,12 @@ describe('Currency Page', () => {
         error: '為替レートの取得に失敗しました',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockResponse,
-      });
+      mockFetch.mockResolvedValueOnce(
+        new Response(JSON.stringify(mockResponse), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
 
       render(<CurrencyPage />);
 
@@ -177,7 +194,7 @@ describe('Currency Page', () => {
 
       await waitFor(() => {
         expect(screen.getByText('換算エラー')).toBeInTheDocument();
-      });
+      }, { timeout: 3000 });
 
       expect(screen.getByText('為替レートの取得に失敗しました')).toBeInTheDocument();
     });
@@ -185,7 +202,7 @@ describe('Currency Page', () => {
     it('ネットワークエラー時にエラーが表示される', async () => {
       const user = userEvent.setup();
 
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+      mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       render(<CurrencyPage />);
 
@@ -194,7 +211,7 @@ describe('Currency Page', () => {
 
       await waitFor(() => {
         expect(screen.getByText('予期しないエラーが発生しました')).toBeInTheDocument();
-      });
+      }, { timeout: 3000 });
     });
   });
 
@@ -236,8 +253,18 @@ describe('Currency Page', () => {
     it('換算中はローディング表示がされる', async () => {
       const user = userEvent.setup();
 
-      (global.fetch as jest.Mock).mockImplementation(
-        () => new Promise(resolve => setTimeout(resolve, 100))
+      // 遅延するPromiseを返すモック
+      mockFetch.mockImplementation(
+        () => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(
+              new Response(JSON.stringify({ success: true, data: { conversions: [] } }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+              })
+            );
+          }, 500);
+        })
       );
 
       render(<CurrencyPage />);
@@ -245,7 +272,10 @@ describe('Currency Page', () => {
       const button = screen.getByRole('button', { name: /通貨を換算/ });
       await user.click(button);
 
-      expect(screen.getByText('換算中...')).toBeInTheDocument();
+      // ローディング状態を確認
+      await waitFor(() => {
+        expect(screen.getByText('換算中...')).toBeInTheDocument();
+      });
     });
   });
 });

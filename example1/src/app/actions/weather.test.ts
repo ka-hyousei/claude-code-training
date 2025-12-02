@@ -1,13 +1,14 @@
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { getWeather } from './weather';
 import type { WeatherData } from '@/types/weather';
 
 // fetch APIをモック
-global.fetch = jest.fn();
+global.fetch = vi.fn();
 
 describe('getWeather', () => {
   beforeEach(() => {
     // 各テストの前にモックをリセット
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     // 環境変数を設定
     process.env.OPENWEATHER_API_KEY = 'test-api-key';
   });
@@ -92,7 +93,7 @@ describe('getWeather', () => {
         cod: 200,
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -142,7 +143,7 @@ describe('getWeather', () => {
       };
 
       // 漢字
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -156,7 +157,7 @@ describe('getWeather', () => {
       );
 
       // ひらがな
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -165,7 +166,7 @@ describe('getWeather', () => {
       expect(resultHiragana.success).toBe(true);
 
       // カタカナ
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -215,7 +216,7 @@ describe('getWeather', () => {
       };
 
       // 簡体字
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -268,7 +269,7 @@ describe('getWeather', () => {
         cod: 200,
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -334,7 +335,7 @@ describe('getWeather', () => {
         cod: 200,
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -357,7 +358,7 @@ describe('getWeather', () => {
     });
 
     it('API エラーレスポンスの場合、エラーメッセージを返す', async () => {
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: false,
         json: async () => ({
           cod: '404',
@@ -374,7 +375,7 @@ describe('getWeather', () => {
     });
 
     it('ネットワークエラーの場合、エラーメッセージを返す', async () => {
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+      (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network error'));
 
       const result = await getWeather('Tokyo');
 
@@ -417,7 +418,7 @@ describe('getWeather', () => {
         cod: 200,
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -472,7 +473,7 @@ describe('getWeather', () => {
         cod: 200,
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         json: async () => mockWeatherData,
       });
@@ -487,7 +488,7 @@ describe('getWeather', () => {
         })
       );
 
-      const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
+      const callUrl = (global.fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       expect(callUrl).toContain('q=Tokyo');
       expect(callUrl).toContain('appid=test-api-key');
       expect(callUrl).toContain('units=metric');

@@ -12,7 +12,15 @@
       "Bash(mkdir:*)",
       "Bash(curl:*)",
       "Bash(exit 0)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run test:coverage:*)",
+      "Bash(npm run test:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
