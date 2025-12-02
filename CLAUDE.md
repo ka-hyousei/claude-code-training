@@ -2,105 +2,113 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## プロジェクト概要
 
-This is a Claude Code hands-on training repository designed to teach developers how to effectively use Claude Code. The repository contains a Next.js example project and a series of progressive training tasks.
+Claude Codeのハンズオン講習用トレーニングプロジェクト。以下の構成でClaude Codeの機能を段階的に学習する。
 
-## Repository Structure
+## プロジェクト構造
 
 ```
 claude-code-training/
-├── example1/          # Next.js 16.0.1 training project
-│   └── src/app/       # App Router structure
-└── issues/            # Training tasks (task1.md - task7.md)
-    ├── task1.md      # Installation
-    ├── task2.md      # Project initialization with CLAUDE.md
-    ├── task3.md      # WebSearch configuration
-    ├── task4.md      # Using WebSearch to learn Next.js
-    ├── task5.md      # Creating custom commands
-    ├── task6.md      # Creating sub-agents
-    └── task7.md      # Comprehensive feature implementation
+├── .claude/                  # Claude Code設定
+│   ├── commands/            # カスタムスラッシュコマンド
+│   │   └── review-custom.md # コードレビューコマンド
+│   └── settings.local.json  # WebSearch権限設定
+├── example1/                # Next.js 15 サンプルプロジェクト
+│   ├── src/app/            # App Router
+│   └── package.json        # Next.js依存関係
+├── homework/                # 宿題・課題ファイル
+│   └── note.txt            # 宿題メモ
+└── issues/                 # 学習タスク(task1.md～task11.md)
 ```
 
-## example1 Project (Next.js)
+## 開発コマンド
 
-### Technology Stack
-- **Framework**: Next.js 16.0.1 (App Router)
-- **React**: 19.2.0
-- **TypeScript**: 5.x with strict mode enabled
-- **Linting**: ESLint with next configuration
-
-### Development Commands
-
-Navigate to `example1/` directory first:
+### example1プロジェクト(Next.js)
 
 ```bash
-# Development server (runs on http://localhost:3000)
+# 開発サーバー起動
+cd example1
 npm run dev
 
-# Production build
+# ビルド
 npm run build
 
-# Start production server
+# 本番サーバー起動
 npm start
 
-# Lint code
+# リント
 npm run lint
 ```
 
-### Project Configuration
+### ハンズオン進行
 
-- **TypeScript**: Uses `@/*` path alias pointing to `./src/*`
-- **Target**: ES2017 with modern module resolution (bundler)
-- **Strict Mode**: Enabled for type safety
-- **JSX**: Configured as `react-jsx` (React 19 automatic runtime)
+issuesディレクトリのタスクを順番に実行:
 
-## Training Task Workflow
+1. **task1.md** - Claude Codeのインストール
+2. **task2.md** - プロジェクト初期化
+3. **task3.md** - WebSearch設定
+4. **task4.md** - WebSearchでNext.js理解
+5. **task5.md** - カスタムコマンド作成
+6. **task6.md** - サブエージェント作成
+7. **task7.md** - 新機能実装(総合演習)
+8. **task8.md** - 高度なカスタマイズ
+9. **task9.md** - 実践的なワークフロー
+10. **task10.md** - チーム開発での活用
+11. **task11.md** - まとめと次のステップ
 
-The `issues/` directory contains sequential training tasks that guide users through:
+## アーキテクチャ
 
-1. Installing Claude Code
-2. Initializing Claude Code in a project with `/init` command
-3. Enabling and configuring WebSearch feature
-4. Using WebSearch to learn about Next.js
-5. Creating custom slash commands (`.claude/commands/`)
-6. Creating custom sub-agents (`.claude/agents/`)
-7. Implementing a complete feature using learned skills
+### example1 (Next.jsプロジェクト)
 
-**Important**: These tasks are designed to be completed in order, as each builds upon the previous one.
+- **Next.js 15** - App Router使用
+- **React 19** - Server Components/Client Components
+- **TypeScript** - 型安全性
+- **ESLint** - コード品質
 
-## Key Training Concepts
+### 主要な学習目標
 
-### CLAUDE.md (Project Memory)
-This file serves as persistent memory for Claude Code. Key points:
-- Can be placed at project root or in `.claude/CLAUDE.md`
-- Hierarchical system: Enterprise > Project > User level
-- Should include project-specific instructions, coding conventions, and tech stack
-- Can import other files using `@path/to/file.md` (max 5 levels deep)
-- Use `#` shortcut in chat to quickly add content to CLAUDE.md
+1. **カスタムコマンド**: `.claude/commands/`に配置し、プロジェクト固有の操作を効率化
+2. **サブエージェント**: `.claude/agents/`に配置し、専門的なレビューやタスクを自律実行
+3. **WebSearch**: Next.js等の最新情報取得
 
-### WebSearch Configuration
-Enable via `.claude/settings.local.json`:
-```json
-{
-  "permissions": {
-    "allow": ["WebSearch"]
-  }
-}
-```
+## 重要な設定ファイル
 
-### Custom Commands
-Location: `.claude/commands/*.md`
-- Markdown files that expand into prompts when invoked with `/command-name`
+### `.claude/settings.local.json`
 
-### Custom Agents
-Location: `.claude/agents/*.md`
-- Specialized sub-agents for specific tasks
-- Can be invoked during conversations for autonomous task execution
+WebSearch権限を付与済み。他のツールの権限も必要に応じて追加可能。
 
-## Development Notes
+### `.claude/commands/review-custom.md`
 
-- This is a training repository, not a production codebase
-- The example1 project is a standard Next.js starter with minimal customization
-- Focus is on teaching Claude Code features, not building complex functionality
-- Comments and documentation should be in Japanese (training material context)
+コードレビュー用スラッシュコマンド。以下の観点でチェック:
+- コード品質(可読性、構造、重複)
+- ベストプラクティス
+- セキュリティ(機密情報、脆弱性)
+- TypeScript型定義
+- テストの必要性
+- ドキュメント
+
+## 開発時の注意点
+
+### Next.js 15の特徴
+
+- **App Router**: `example1/src/app/`配下がルート構造
+- **Server Components**: デフォルトでサーバーコンポーネント
+- **Client Components**: `"use client"`ディレクティブで明示
+
+### カスタムコマンド/サブエージェント作成時
+
+- **カスタムコマンド**: シンプルな指示のショートカット向け
+- **サブエージェント**: 複雑な自律タスク・専門分析向け
+- 両者ともMarkdown形式(`.md`)
+- Git管理してチームで共有推奨
+
+## このプロジェクトでの作業方針
+
+1. **issuesのタスクを順次進める**: task1から順に実行し、Claude Codeの機能を習得
+2. **example1で実験**: Next.jsプロジェクトを使って新機能やレビューを試す
+3. **カスタムコマンド/エージェントを活用**: 効率的なワークフロー構築
+
+## 出力言語
+
+**日本語で出力すること** - ユーザーへの全ての説明、レビュー結果、コメントは日本語で記述する

@@ -50,6 +50,8 @@ Google Drive: https://drive.google.com/drive/u/0/folders/1TTjjPxaxpWVQcHk8Qdmn3d
 ```
 claude-code-training/
 ├── example1/          # Next.jsプロジェクト（ハンズオン用）
+├── homework/          # 宿題・課題ファイル
+│   └── note.txt      # 宿題メモ
 ├── issues/            # タスクファイル（順番に実行）
 │   ├── task1.md      # インストール
 │   ├── task2.md      # プロジェクト初期化
@@ -57,7 +59,11 @@ claude-code-training/
 │   ├── task4.md      # WebSearchでNext.js理解
 │   ├── task5.md      # カスタムコマンド作成
 │   ├── task6.md      # サブエージェント作成
-│   └── task7.md      # 新機能実装（総合演習）
+│   ├── task7.md      # 新機能実装（総合演習）
+│   ├── task8.md      # 高度なカスタマイズ
+│   ├── task9.md      # 実践的なワークフロー
+│   ├── task10.md     # チーム開発での活用
+│   └── task11.md     # まとめと次のステップ
 └── README.md         # このファイル
 ```
 
