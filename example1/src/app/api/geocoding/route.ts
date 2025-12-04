@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "住所を入力してください",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "APIキーが設定されていません。管理者に連絡してください",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
           success: false,
           error: "APIリクエストが拒否されました。APIキーを確認してください",
         },
-        { status: 403 },
+        { status: 403 }
       );
     }
 
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "住所の取得に失敗しました。しばらく待ってから再度お試しください",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

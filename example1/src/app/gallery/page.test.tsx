@@ -295,7 +295,7 @@ describe("Gallery Page", () => {
         () =>
           new Promise((resolve) => {
             resolvePromise = resolve;
-          }),
+          })
       );
 
       render(<GalleryPage />);

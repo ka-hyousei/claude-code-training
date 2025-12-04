@@ -24,7 +24,7 @@ export default function GalleryPage() {
 
     try {
       const response = await fetch(
-        `/api/images?query=${encodeURIComponent(query)}&page=${pageNum}&per_page=12`,
+        `/api/images?query=${encodeURIComponent(query)}&page=${pageNum}&per_page=12`
       );
       const data: ImageGalleryApiResponse = await response.json();
 

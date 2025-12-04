@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "基準通貨を選択してください",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "有効な金額を入力してください",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     } else {
       // デフォルトは主要通貨（基準通貨を除く）
       targetCurrencies = MAJOR_CURRENCIES.filter((c) => c.code !== baseCurrency.toUpperCase()).map(
-        (c) => c.code,
+        (c) => c.code
       );
     }
 
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "為替レートの取得に失敗しました。しばらく待ってから再度お試しください",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

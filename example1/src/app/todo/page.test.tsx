@@ -68,7 +68,7 @@ describe("Todo Page", () => {
       render(<TodoPage />);
       const allButtons = screen.getAllByRole("button");
       const filterButtons = allButtons.filter((btn) =>
-        btn.textContent?.match(/すべて|未完了|完了/),
+        btn.textContent?.match(/すべて|未完了|完了/)
       );
       expect(filterButtons.length).toBeGreaterThanOrEqual(3);
     });
@@ -182,7 +182,7 @@ describe("Todo Page", () => {
       // フィルターボタンを見つけてクリック可能か確認
       const allButtons = screen.getAllByRole("button");
       const filterButtons = allButtons.filter((btn) =>
-        btn.textContent?.match(/すべて|未完了|完了/),
+        btn.textContent?.match(/すべて|未完了|完了/)
       );
       expect(filterButtons.length).toBeGreaterThanOrEqual(3);
     });

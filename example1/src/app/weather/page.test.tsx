@@ -175,7 +175,7 @@ describe("Weather Page", () => {
       const user = userEvent.setup();
 
       (getWeather as ReturnType<typeof vi.fn>).mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({ success: true, data: {} }), 100)),
+        () => new Promise((resolve) => setTimeout(() => resolve({ success: true, data: {} }), 100))
       );
 
       render(<WeatherPage />);

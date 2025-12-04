@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "ユーザー名を入力してください",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "GitHub APIの呼び出しに失敗しました。しばらく待ってから再度お試しください",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -20,7 +20,7 @@ describe("GitHub Page", () => {
     it("説明文が表示される", () => {
       render(<GitHubPage />);
       expect(
-        screen.getByText("GitHubユーザーのプロフィールとリポジトリを検索"),
+        screen.getByText("GitHubユーザーのプロフィールとリポジトリを検索")
       ).toBeInTheDocument();
     });
 
@@ -225,7 +225,7 @@ describe("GitHub Page", () => {
       const user = userEvent.setup();
 
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100)),
+        () => new Promise((resolve) => setTimeout(resolve, 100))
       );
 
       render(<GitHubPage />);

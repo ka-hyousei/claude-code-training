@@ -10,7 +10,7 @@ describe("Home Page", () => {
   it("説明文が表示される", () => {
     render(<Home />);
     expect(
-      screen.getByText(/このプロジェクトでは、Claude Codeを使った開発を体験できます/),
+      screen.getByText(/このプロジェクトでは、Claude Codeを使った開発を体験できます/)
     ).toBeInTheDocument();
   });
 

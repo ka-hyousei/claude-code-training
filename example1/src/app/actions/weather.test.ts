@@ -49,7 +49,7 @@ describe("getWeather", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error).toBe(
-          "都市名には英字、日本語、中国語、韓国語、スペース、カンマ、ハイフン、ピリオドのみ使用できます",
+          "都市名には英字、日本語、中国語、韓国語、スペース、カンマ、ハイフン、ピリオドのみ使用できます"
         );
       }
     });
@@ -155,7 +155,7 @@ describe("getWeather", () => {
       // APIには英語名"Tokyo"が送信されることを確認
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("q=Tokyo"),
-        expect.any(Object),
+        expect.any(Object)
       );
 
       // ひらがな
@@ -227,7 +227,7 @@ describe("getWeather", () => {
       expect(result.success).toBe(true);
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("q=Beijing"),
-        expect.any(Object),
+        expect.any(Object)
       );
     });
 
@@ -280,7 +280,7 @@ describe("getWeather", () => {
       expect(result.success).toBe(true);
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining("q=Seoul"),
-        expect.any(Object),
+        expect.any(Object)
       );
     });
   });
@@ -292,7 +292,7 @@ describe("getWeather", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error).toBe(
-          "API キーが設定されていません。環境変数 OPENWEATHER_API_KEY を設定してください。",
+          "API キーが設定されていません。環境変数 OPENWEATHER_API_KEY を設定してください。"
         );
       }
     });
@@ -386,7 +386,7 @@ describe("getWeather", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error).toBe(
-          "ネットワークエラーが発生しました。しばらくしてから再度お試しください。",
+          "ネットワークエラーが発生しました。しばらくしてから再度お試しください。"
         );
       }
     });
@@ -491,7 +491,7 @@ describe("getWeather", () => {
         expect.stringContaining("https://api.openweathermap.org/data/2.5/weather?"),
         expect.objectContaining({
           cache: "no-store",
-        }),
+        })
       );
 
       const callUrl = (global.fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];

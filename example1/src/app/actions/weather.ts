@@ -10,7 +10,7 @@ import { translateCityName } from "@/utils/cityMapping";
  * @returns 天気情報またはエラーメッセージ
  */
 export async function getWeather(
-  city: string,
+  city: string
 ): Promise<{ success: true; data: WeatherDisplay } | { success: false; error: string }> {
   // 入力バリデーション
   const trimmedCity = city.trim();
@@ -36,7 +36,7 @@ export async function getWeather(
   // 英字、スペース、カンマ、ハイフン、ピリオド、アポストロフィを許可
   if (
     !/^[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF\u0100-\u017F\s,.'-]+$/.test(
-      trimmedCity,
+      trimmedCity
     )
   ) {
     return {

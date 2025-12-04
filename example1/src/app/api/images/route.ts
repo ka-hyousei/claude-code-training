@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "検索キーワードを入力してください",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         error:
           "Unsplash APIキーが設定されていません。環境変数 UNSPLASH_ACCESS_KEY を設定してください。",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
           success: false,
           error: "Unsplash APIキーが無効です",
         },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
           success: false,
           error: "APIリクエスト制限に達しました。しばらく待ってから再度お試しください",
         },
-        { status: 403 },
+        { status: 403 }
       );
     }
 
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "画像の取得に失敗しました。しばらく待ってから再度お試しください",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

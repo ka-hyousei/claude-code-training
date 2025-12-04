@@ -89,7 +89,7 @@ describe("Currency Page", () => {
         new Response(JSON.stringify(mockResponse), {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }),
+        })
       );
 
       render(<CurrencyPage />);
@@ -101,7 +101,7 @@ describe("Currency Page", () => {
         () => {
           expect(screen.getByText("換算元")).toBeInTheDocument();
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       );
 
       expect(screen.getAllByText(/日本円/).length).toBeGreaterThan(0);
@@ -124,7 +124,7 @@ describe("Currency Page", () => {
         new Response(JSON.stringify(mockResponse), {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }),
+        })
       );
 
       render(<CurrencyPage />);
@@ -140,7 +140,7 @@ describe("Currency Page", () => {
         () => {
           expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("amount=200"));
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       );
     });
 
@@ -160,7 +160,7 @@ describe("Currency Page", () => {
         new Response(JSON.stringify(mockResponse), {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }),
+        })
       );
 
       render(<CurrencyPage />);
@@ -175,7 +175,7 @@ describe("Currency Page", () => {
         () => {
           expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining("from=JPY"));
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       );
     });
 
@@ -190,7 +190,7 @@ describe("Currency Page", () => {
         new Response(JSON.stringify(mockResponse), {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }),
+        })
       );
 
       render(<CurrencyPage />);
@@ -202,7 +202,7 @@ describe("Currency Page", () => {
         () => {
           expect(screen.getByText("換算エラー")).toBeInTheDocument();
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       );
 
       expect(screen.getByText("為替レートの取得に失敗しました")).toBeInTheDocument();
@@ -222,7 +222,7 @@ describe("Currency Page", () => {
         () => {
           expect(screen.getByText("予期しないエラーが発生しました")).toBeInTheDocument();
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       );
     });
   });
@@ -274,10 +274,10 @@ describe("Currency Page", () => {
                 new Response(JSON.stringify({ success: true, data: { conversions: [] } }), {
                   status: 200,
                   headers: { "Content-Type": "application/json" },
-                }),
+                })
               );
             }, 500);
-          }),
+          })
       );
 
       render(<CurrencyPage />);

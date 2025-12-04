@@ -20,7 +20,7 @@ export default function CurrencyPage() {
 
     try {
       const response = await fetch(
-        `/api/currency?from=${encodeURIComponent(baseCurrency)}&amount=${encodeURIComponent(amount)}`,
+        `/api/currency?from=${encodeURIComponent(baseCurrency)}&amount=${encodeURIComponent(amount)}`
       );
       const data: CurrencyApiResponse = await response.json();
 

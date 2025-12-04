@@ -154,7 +154,7 @@ describe("Markdown Page", () => {
       await user.click(clearButton);
 
       expect(global.confirm).toHaveBeenCalledWith(
-        "本当にすべてクリアしますか？この操作は元に戻せません。",
+        "本当にすべてクリアしますか？この操作は元に戻せません。"
       );
       expect(textarea).toHaveValue("");
     });

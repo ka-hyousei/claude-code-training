@@ -210,7 +210,7 @@ describe("Geocoding Page", () => {
       const user = userEvent.setup();
 
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100)),
+        () => new Promise((resolve) => setTimeout(resolve, 100))
       );
 
       render(<GeocodingPage />);

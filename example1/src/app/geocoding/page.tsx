@@ -36,7 +36,7 @@ export default function GeocodingPage() {
 
     const newHistory = [newEntry, ...history.filter((h) => h.address !== searchAddress)].slice(
       0,
-      MAX_HISTORY,
+      MAX_HISTORY
     );
     setHistory(newHistory);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory));
