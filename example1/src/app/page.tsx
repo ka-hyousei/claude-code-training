@@ -15,58 +15,35 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>Claude Code Training Project</h1>
-          <p>
-            このプロジェクトでは、Claude Codeを使った開発を体験できます。
-          </p>
+          <h1>Claude Code Training Project - Biome CI</h1>
+          <p>このプロジェクトでは、Claude Codeを使った開発を体験できます。</p>
         </div>
         <div className={styles.ctas}>
-          <Link
-            className={styles.primary}
-            href="/weather"
-          >
+          <Link className={styles.primary} href="/weather">
             <span className="text-2xl">🌤️</span>
             天気予報
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/geocoding"
-          >
+          <Link className={styles.secondary} href="/geocoding">
             <span className="text-2xl">📍</span>
             ジオコーディング
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/currency"
-          >
+          <Link className={styles.secondary} href="/currency">
             <span className="text-2xl">💱</span>
             通貨換算
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/github"
-          >
+          <Link className={styles.secondary} href="/github">
             <span className="text-2xl">🐙</span>
             GitHub検索
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/todo"
-          >
+          <Link className={styles.secondary} href="/todo">
             <span className="text-2xl">✅</span>
             TODOリスト
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/markdown"
-          >
+          <Link className={styles.secondary} href="/markdown">
             <span className="text-2xl">📝</span>
             Markdown
           </Link>
-          <Link
-            className={styles.secondary}
-            href="/gallery"
-          >
+          <Link className={styles.secondary} href="/gallery">
             <span className="text-2xl">🖼️</span>
             画像検索
           </Link>

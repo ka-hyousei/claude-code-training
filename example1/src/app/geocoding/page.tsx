@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import type { GeocodingResult, SearchHistory } from '@/types/geocoding';
+import { useEffect, useState } from "react";
+import type { GeocodingResult, SearchHistory } from "@/types/geocoding";
 
-const STORAGE_KEY = 'geocoding_history';
+const STORAGE_KEY = "geocoding_history";
 const MAX_HISTORY = 10;
 
 export default function GeocodingPage() {
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [result, setResult] = useState<GeocodingResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function GeocodingPage() {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (err) {
-        console.error('Failed to parse history:', err);
+        console.error("Failed to parse history:", err);
       }
     }
   }, []);
@@ -71,11 +71,11 @@ export default function GeocodingPage() {
         setResult(data.data);
         saveToHistory(address, data.data);
       } else {
-        setError(data.error || '住所の検索に失敗しました');
+        setError(data.error || "住所の検索に失敗しました");
       }
     } catch (err) {
-      setError('予期しないエラーが発生しました');
-      console.error('Geocoding error:', err);
+      setError("予期しないエラーが発生しました");
+      console.error("Geocoding error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -101,8 +101,14 @@ export default function GeocodingPage() {
           {/* 左側: 検索フォームと結果 */}
           <div className="lg:col-span-2 space-y-6">
             {/* 検索フォーム */}
-            <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6">
-              <label htmlFor="address-input" className="block text-sm font-medium text-gray-700 mb-2">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6"
+            >
+              <label
+                htmlFor="address-input"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 住所を入力
               </label>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -121,7 +127,7 @@ export default function GeocodingPage() {
                   type="submit"
                   disabled={isLoading || !address.trim()}
                   className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-teal-500 via-teal-600 to-cyan-600 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                  aria-label={isLoading ? '検索中' : '住所を検索'}
+                  aria-label={isLoading ? "検索中" : "住所を検索"}
                 >
                   {/* グラデーションオーバーレイ */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -184,7 +190,12 @@ export default function GeocodingPage() {
                   <div className="flex items-center gap-4">
                     <div className="flex-shrink-0">
                       <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -249,7 +260,12 @@ export default function GeocodingPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -275,21 +291,27 @@ export default function GeocodingPage() {
                     <span className="text-xl">📝</span>
                     <div>
                       <p className="font-semibold mb-1">住所を入力</p>
-                      <p className="text-teal-50">正確な住所を入力すると、より精度の高い結果が得られます</p>
+                      <p className="text-teal-50">
+                        正確な住所を入力すると、より精度の高い結果が得られます
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-xl">🗺️</span>
                     <div>
                       <p className="font-semibold mb-1">地図表示</p>
-                      <p className="text-teal-50">検索結果は地図上に表示され、Google Mapsで詳細を確認できます</p>
+                      <p className="text-teal-50">
+                        検索結果は地図上に表示され、Google Mapsで詳細を確認できます
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-xl">📚</span>
                     <div>
                       <p className="font-semibold mb-1">検索履歴</p>
-                      <p className="text-teal-50">過去の検索結果は自動的に保存され、再利用できます</p>
+                      <p className="text-teal-50">
+                        過去の検索結果は自動的に保存され、再利用できます
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -328,7 +350,7 @@ export default function GeocodingPage() {
                     >
                       <p className="text-sm font-medium text-gray-800 truncate">{item.address}</p>
                       <p className="text-xs text-gray-500 mt-1">
-                        {new Date(item.timestamp).toLocaleString('ja-JP')}
+                        {new Date(item.timestamp).toLocaleString("ja-JP")}
                       </p>
                       <div className="text-xs text-gray-600 mt-1 flex gap-3">
                         <span>緯度: {item.result.lat.toFixed(4)}</span>

@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import type { GitHubApiResponse, GitHubUser, GitHubRepository } from '@/types/github';
+import { useState } from "react";
+import type { GitHubApiResponse, GitHubRepository, GitHubUser } from "@/types/github";
 
 export default function GitHubPage() {
-  const [username, setUsername] = useState('');
-  const [result, setResult] = useState<{ user: GitHubUser; repositories: GitHubRepository[] } | null>(null);
+  const [username, setUsername] = useState("");
+  const [result, setResult] = useState<{
+    user: GitHubUser;
+    repositories: GitHubRepository[];
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,26 +26,26 @@ export default function GitHubPage() {
       if (data.success && data.data) {
         setResult(data.data);
       } else {
-        setError(data.error || 'ユーザー情報の取得に失敗しました');
+        setError(data.error || "ユーザー情報の取得に失敗しました");
       }
     } catch (err) {
-      setError('予期しないエラーが発生しました');
-      console.error('GitHub search error:', err);
+      setError("予期しないエラーが発生しました");
+      console.error("GitHub search error:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    return new Date(dateString).toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   const formatNumber = (num: number) => {
-    return new Intl.NumberFormat('ja-JP').format(num);
+    return new Intl.NumberFormat("ja-JP").format(num);
   };
 
   return (
@@ -79,7 +82,7 @@ export default function GitHubPage() {
                 type="submit"
                 disabled={isLoading || !username.trim()}
                 className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-700 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                aria-label={isLoading ? '検索中' : 'ユーザーを検索'}
+                aria-label={isLoading ? "検索中" : "ユーザーを検索"}
               >
                 {/* グラデーションオーバーレイ */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -165,7 +168,9 @@ export default function GitHubPage() {
                       {result.user.name || result.user.login}
                     </h2>
                     <p className="text-lg text-purple-100 mb-2">@{result.user.login}</p>
-                    {result.user.bio && <p className="text-purple-50 mb-3 text-sm">{result.user.bio}</p>}
+                    {result.user.bio && (
+                      <p className="text-purple-50 mb-3 text-sm">{result.user.bio}</p>
+                    )}
                     <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
                       <a
                         href={result.user.html_url}
@@ -182,24 +187,35 @@ export default function GitHubPage() {
 
               <div className="p-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{formatNumber(result.user.public_repos)}</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {formatNumber(result.user.public_repos)}
+                  </div>
                   <div className="text-xs text-gray-600 mt-1">リポジトリ</div>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{formatNumber(result.user.followers)}</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {formatNumber(result.user.followers)}
+                  </div>
                   <div className="text-xs text-gray-600 mt-1">フォロワー</div>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{formatNumber(result.user.following)}</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {formatNumber(result.user.following)}
+                  </div>
                   <div className="text-xs text-gray-600 mt-1">フォロー中</div>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{formatNumber(result.user.public_gists)}</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {formatNumber(result.user.public_gists)}
+                  </div>
                   <div className="text-xs text-gray-600 mt-1">Gists</div>
                 </div>
               </div>
 
-              {(result.user.location || result.user.company || result.user.blog || result.user.twitter_username) && (
+              {(result.user.location ||
+                result.user.company ||
+                result.user.blog ||
+                result.user.twitter_username) && (
                 <div className="px-6 pb-6">
                   <div className="border-t border-gray-200 pt-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
@@ -215,16 +231,26 @@ export default function GitHubPage() {
                       )}
                       {result.user.blog && (
                         <div className="text-gray-700">
-                          <span className="font-medium">ブログ:</span>{' '}
-                          <a href={result.user.blog} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline break-all">
+                          <span className="font-medium">ブログ:</span>{" "}
+                          <a
+                            href={result.user.blog}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-600 hover:underline break-all"
+                          >
                             {result.user.blog}
                           </a>
                         </div>
                       )}
                       {result.user.twitter_username && (
                         <div className="text-gray-700">
-                          <span className="font-medium">Twitter:</span>{' '}
-                          <a href={`https://twitter.com/${result.user.twitter_username}`} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
+                          <span className="font-medium">Twitter:</span>{" "}
+                          <a
+                            href={`https://twitter.com/${result.user.twitter_username}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-600 hover:underline"
+                          >
                             @{result.user.twitter_username}
                           </a>
                         </div>
@@ -257,7 +283,9 @@ export default function GitHubPage() {
                           {repo.name}
                         </a>
                         {repo.fork && (
-                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">Fork</span>
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                            Fork
+                          </span>
                         )}
                       </div>
                       {repo.description && <p className="text-gray-700 mb-3">{repo.description}</p>}
@@ -268,18 +296,17 @@ export default function GitHubPage() {
                             <span>{repo.language}</span>
                           </div>
                         )}
-                        <div>
-                          ⭐ {formatNumber(repo.stargazers_count)}
-                        </div>
-                        <div>
-                          🍴 {formatNumber(repo.forks_count)}
-                        </div>
+                        <div>⭐ {formatNumber(repo.stargazers_count)}</div>
+                        <div>🍴 {formatNumber(repo.forks_count)}</div>
                         <div className="text-gray-500">更新: {formatDate(repo.updated_at)}</div>
                       </div>
                       {repo.topics.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-3">
                           {repo.topics.map((topic) => (
-                            <span key={topic} className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">
+                            <span
+                              key={topic}
+                              className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                            >
                               {topic}
                             </span>
                           ))}
@@ -304,20 +331,22 @@ export default function GitHubPage() {
                 <span className="text-xl">1️⃣</span>
                 <div>
                   <p className="font-semibold mb-1">ユーザー名を入力</p>
-                  <p className="text-purple-100">検索したいGitHubユーザー名を入力してください (例: octocat)</p>
+                  <p className="text-purple-100">
+                    検索したいGitHubユーザー名を入力してください (例: octocat)
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-xl">2️⃣</span>
                 <div>
                   <p className="font-semibold mb-1">検索ボタンをクリック</p>
-                  <p className="text-purple-100">ユーザーのプロフィールとリポジトリが表示されます</p>
+                  <p className="text-purple-100">
+                    ユーザーのプロフィールとリポジトリが表示されます
+                  </p>
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-white/30">
-                <p className="text-sm text-purple-100">
-                  💡 データは5分間キャッシュされます
-                </p>
+                <p className="text-sm text-purple-100">💡 データは5分間キャッシュされます</p>
               </div>
             </div>
           </div>

@@ -5,4 +5,4 @@ export interface Todo {
   createdAt: string;
 }
 
-export type FilterType = 'all' | 'active' | 'completed';
+export type FilterType = "all" | "active" | "completed";

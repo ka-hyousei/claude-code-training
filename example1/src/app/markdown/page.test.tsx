@@ -1,23 +1,24 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // react-markdownをモック
-jest.mock('react-markdown', () => ({
+vi.mock("react-markdown", () => ({
   __esModule: true,
   default: ({ children }: { children: string }) => <div>{children}</div>,
 }));
 
-jest.mock('remark-gfm', () => ({
+vi.mock("remark-gfm", () => ({
   __esModule: true,
   default: () => {},
 }));
 
-jest.mock('rehype-highlight', () => ({
+vi.mock("rehype-highlight", () => ({
   __esModule: true,
   default: () => {},
 }));
 
-import MarkdownPage from './page';
+import MarkdownPage from "./page";
 
 // LocalStorage のモック
 const localStorageMock = (() => {
@@ -36,100 +37,100 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
 
 // URL.createObjectURL のモック
-global.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
-global.URL.revokeObjectURL = jest.fn();
+global.URL.createObjectURL = vi.fn(() => "blob:mock-url");
+global.URL.revokeObjectURL = vi.fn();
 
 // confirm のモック
-global.confirm = jest.fn(() => true);
+global.confirm = vi.fn(() => true);
 
-describe('Markdown Page', () => {
+describe("Markdown Page", () => {
   beforeEach(() => {
     localStorageMock.clear();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  describe('初期表示', () => {
-    it('ページタイトルが表示される', () => {
+  describe("初期表示", () => {
+    it("ページタイトルが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByText('Markdownエディター')).toBeInTheDocument();
+      expect(screen.getByText("Markdownエディター")).toBeInTheDocument();
     });
 
-    it('説明文が表示される', () => {
+    it("説明文が表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByText('リアルタイムプレビュー機能付き')).toBeInTheDocument();
+      expect(screen.getByText("リアルタイムプレビュー機能付き")).toBeInTheDocument();
     });
 
-    it('エディターセクションが表示される', () => {
+    it("エディターセクションが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByText('編集')).toBeInTheDocument();
+      expect(screen.getByText("編集")).toBeInTheDocument();
     });
 
-    it('プレビューセクションが表示される', () => {
+    it("プレビューセクションが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByText('プレビュー')).toBeInTheDocument();
+      expect(screen.getByText("プレビュー")).toBeInTheDocument();
     });
 
-    it('エクスポートボタンが表示される', () => {
+    it("エクスポートボタンが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByRole('button', { name: /エクスポート/ })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /エクスポート/ })).toBeInTheDocument();
     });
 
-    it('リセットボタンが表示される', () => {
+    it("リセットボタンが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByRole('button', { name: /リセット/ })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /リセット/ })).toBeInTheDocument();
     });
 
-    it('クリアボタンが表示される', () => {
+    it("クリアボタンが表示される", () => {
       render(<MarkdownPage />);
-      expect(screen.getByRole('button', { name: /クリア/ })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /クリア/ })).toBeInTheDocument();
     });
 
-    it('デフォルトのMarkdownテキストが表示される', () => {
+    it("デフォルトのMarkdownテキストが表示される", () => {
       render(<MarkdownPage />);
       const elements = screen.getAllByText(/Markdownエディターへようこそ/);
       expect(elements.length).toBeGreaterThan(0);
     });
   });
 
-  describe('エディター機能', () => {
-    it('テキストを入力できる', async () => {
+  describe("エディター機能", () => {
+    it("テキストを入力できる", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, '# テスト見出し');
+      await user.type(textarea, "# テスト見出し");
 
-      expect(textarea).toHaveValue('# テスト見出し');
+      expect(textarea).toHaveValue("# テスト見出し");
     });
 
-    it('入力したテキストがプレビューに反映される', async () => {
+    it("入力したテキストがプレビューに反映される", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'test-heading');
+      await user.type(textarea, "test-heading");
 
       await waitFor(() => {
         // モックされたreact-markdownは単純にテキストを表示するだけ
-        const elements = screen.getAllByText('test-heading');
+        const elements = screen.getAllByText("test-heading");
         expect(elements.length).toBeGreaterThan(0);
       });
     });
 
-    it('文字数と行数が表示される', async () => {
+    it("文字数と行数が表示される", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'test');
+      await user.type(textarea, "test");
 
       await waitFor(() => {
         expect(screen.getByText(/4 文字/)).toBeInTheDocument();
@@ -138,73 +139,73 @@ describe('Markdown Page', () => {
     });
   });
 
-  describe('ボタン機能', () => {
-    it('クリアボタンでテキストがクリアされる', async () => {
+  describe("ボタン機能", () => {
+    it("クリアボタンでテキストがクリアされる", async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(true);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(true);
 
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'テストテキスト');
+      await user.type(textarea, "テストテキスト");
 
-      const clearButton = screen.getByRole('button', { name: /クリア/ });
+      const clearButton = screen.getByRole("button", { name: /クリア/ });
       await user.click(clearButton);
 
       expect(global.confirm).toHaveBeenCalledWith(
-        '本当にすべてクリアしますか？この操作は元に戻せません。'
+        "本当にすべてクリアしますか？この操作は元に戻せません。"
       );
-      expect(textarea).toHaveValue('');
+      expect(textarea).toHaveValue("");
     });
 
-    it('クリア確認でキャンセルした場合はクリアされない', async () => {
+    it("クリア確認でキャンセルした場合はクリアされない", async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(false);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(false);
 
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'テストテキスト');
+      await user.type(textarea, "テストテキスト");
 
-      const clearButton = screen.getByRole('button', { name: /クリア/ });
+      const clearButton = screen.getByRole("button", { name: /クリア/ });
       await user.click(clearButton);
 
-      expect(textarea).toHaveValue('テストテキスト');
+      expect(textarea).toHaveValue("テストテキスト");
     });
 
-    it('リセットボタンでデフォルトテキストに戻る', async () => {
+    it("リセットボタンでデフォルトテキストに戻る", async () => {
       const user = userEvent.setup();
-      (global.confirm as jest.Mock).mockReturnValue(true);
+      (global.confirm as ReturnType<typeof vi.fn>).mockReturnValue(true);
 
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'カスタムテキスト');
+      await user.type(textarea, "カスタムテキスト");
 
-      const resetButton = screen.getByRole('button', { name: /リセット/ });
+      const resetButton = screen.getByRole("button", { name: /リセット/ });
       await user.click(resetButton);
 
       expect(global.confirm).toHaveBeenCalled();
       await waitFor(() => {
-        expect(textarea.value).toContain('Markdownエディターへようこそ');
+        expect(textarea.value).toContain("Markdownエディターへようこそ");
       });
     });
 
-    it('エクスポートボタンでファイルがダウンロードされる', async () => {
+    it("エクスポートボタンでファイルがダウンロードされる", async () => {
       const user = userEvent.setup();
-      const createElementSpy = jest.spyOn(document, 'createElement');
-      const appendChildSpy = jest.spyOn(document.body, 'appendChild');
-      const removeChildSpy = jest.spyOn(document.body, 'removeChild');
+      const createElementSpy = vi.spyOn(document, "createElement");
+      const appendChildSpy = vi.spyOn(document.body, "appendChild");
+      const removeChildSpy = vi.spyOn(document.body, "removeChild");
 
       render(<MarkdownPage />);
 
-      const exportButton = screen.getByRole('button', { name: /エクスポート/ });
+      const exportButton = screen.getByRole("button", { name: /エクスポート/ });
       await user.click(exportButton);
 
-      expect(createElementSpy).toHaveBeenCalledWith('a');
+      expect(createElementSpy).toHaveBeenCalledWith("a");
       expect(appendChildSpy).toHaveBeenCalled();
       expect(removeChildSpy).toHaveBeenCalled();
       expect(global.URL.createObjectURL).toHaveBeenCalled();
@@ -216,59 +217,59 @@ describe('Markdown Page', () => {
     });
   });
 
-  describe('LocalStorage連携', () => {
-    it('テキスト変更時にLocalStorageに保存される', async () => {
+  describe("LocalStorage連携", () => {
+    it("テキスト変更時にLocalStorageに保存される", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, '# テスト');
+      await user.type(textarea, "# テスト");
 
       await waitFor(() => {
-        const savedData = localStorageMock.getItem('markdown');
-        expect(savedData).toBe('# テスト');
+        const savedData = localStorageMock.getItem("markdown");
+        expect(savedData).toBe("# テスト");
       });
     });
 
-    it('LocalStorageから保存データを読み込む', () => {
-      localStorageMock.setItem('markdown', '# 保存されたテキスト');
+    it("LocalStorageから保存データを読み込む", () => {
+      localStorageMock.setItem("markdown", "# 保存されたテキスト");
 
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
-      expect(textarea).toHaveValue('# 保存されたテキスト');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
+      expect(textarea).toHaveValue("# 保存されたテキスト");
     });
 
-    it('LocalStorageにデータがない場合はデフォルトテキストを表示', () => {
+    it("LocalStorageにデータがない場合はデフォルトテキストを表示", () => {
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
-      expect(textarea.value).toContain('Markdownエディターへようこそ');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
+      expect(textarea.value).toContain("Markdownエディターへようこそ");
     });
   });
 
-  describe('Markdownレンダリング', () => {
-    it('Markdownテキストがプレビューに反映される', async () => {
+  describe("Markdownレンダリング", () => {
+    it("Markdownテキストがプレビューに反映される", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
-      await user.type(textarea, 'heading-test');
+      await user.type(textarea, "heading-test");
 
       await waitFor(() => {
-        const elements = screen.getAllByText('heading-test');
+        const elements = screen.getAllByText("heading-test");
         // テキストエリアとプレビューの両方に表示されるので2つ以上
         expect(elements.length).toBeGreaterThanOrEqual(2);
       });
     });
 
-    it('空のテキストの場合はプレースホルダーが表示される', async () => {
+    it("空のテキストの場合はプレースホルダーが表示される", async () => {
       const user = userEvent.setup();
       render(<MarkdownPage />);
 
-      const textarea = screen.getByPlaceholderText('ここにMarkdownを入力...');
+      const textarea = screen.getByPlaceholderText("ここにMarkdownを入力...");
       await user.clear(textarea);
 
       await waitFor(() => {

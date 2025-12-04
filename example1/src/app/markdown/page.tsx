@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
-import 'highlight.js/styles/github-dark.css';
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
+import "highlight.js/styles/github-dark.css";
 
 export default function MarkdownPage() {
-  const [markdown, setMarkdown] = useState('');
+  const [markdown, setMarkdown] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
 
   const defaultMarkdown = `# Markdownエディターへようこそ
@@ -110,7 +110,7 @@ print(fibonacci(10))
 
   // LocalStorageから読み込み
   useEffect(() => {
-    const savedMarkdown = localStorage.getItem('markdown');
+    const savedMarkdown = localStorage.getItem("markdown");
     if (savedMarkdown) {
       setMarkdown(savedMarkdown);
     } else {
@@ -122,16 +122,16 @@ print(fibonacci(10))
   // LocalStorageに保存
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem('markdown', markdown);
+      localStorage.setItem("markdown", markdown);
     }
   }, [markdown, isLoaded]);
 
   const handleExport = () => {
-    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const blob = new Blob([markdown], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `markdown-${new Date().toISOString().split('T')[0]}.md`;
+    a.download = `markdown-${new Date().toISOString().split("T")[0]}.md`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -139,13 +139,13 @@ print(fibonacci(10))
   };
 
   const handleClear = () => {
-    if (confirm('本当にすべてクリアしますか？この操作は元に戻せません。')) {
-      setMarkdown('');
+    if (confirm("本当にすべてクリアしますか？この操作は元に戻せません。")) {
+      setMarkdown("");
     }
   };
 
   const handleReset = () => {
-    if (confirm('デフォルトのテキストに戻しますか？現在の内容は失われます。')) {
+    if (confirm("デフォルトのテキストに戻しますか？現在の内容は失われます。")) {
       setMarkdown(defaultMarkdown);
     }
   };
@@ -169,7 +169,12 @@ print(fibonacci(10))
                 className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
                 </svg>
                 エクスポート
               </button>
@@ -178,7 +183,12 @@ print(fibonacci(10))
                 className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
                 </svg>
                 リセット
               </button>
@@ -187,7 +197,12 @@ print(fibonacci(10))
                 className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
                 </svg>
                 クリア
               </button>
@@ -204,7 +219,12 @@ print(fibonacci(10))
             <div className="bg-white/10 backdrop-blur-sm px-4 py-2 border-b border-white/20">
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
                 </svg>
                 編集
               </h2>
@@ -218,7 +238,7 @@ print(fibonacci(10))
             />
             <div className="bg-white/10 backdrop-blur-sm px-4 py-2 border-t border-white/20">
               <p className="text-xs text-purple-200">
-                {markdown.length} 文字 | {markdown.split('\n').length} 行
+                {markdown.length} 文字 | {markdown.split("\n").length} 行
               </p>
             </div>
           </div>
@@ -228,19 +248,26 @@ print(fibonacci(10))
             <div className="bg-white/10 backdrop-blur-sm px-4 py-2 border-b border-white/20">
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
                 </svg>
                 プレビュー
               </h2>
             </div>
             <div className="flex-1 overflow-auto p-4 bg-white">
               <article className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-purple-600 prose-strong:text-gray-900 prose-code:text-purple-600 prose-pre:bg-gray-900 prose-pre:text-gray-100">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeHighlight]}
-                >
-                  {markdown || '*プレビューがここに表示されます...*'}
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                  {markdown || "*プレビューがここに表示されます...*"}
                 </ReactMarkdown>
               </article>
             </div>

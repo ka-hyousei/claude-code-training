@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
-import type { GitHubApiResponse, GitHubUser, GitHubRepository } from '@/types/github';
+import { type NextRequest, NextResponse } from "next/server";
+import type { GitHubApiResponse, GitHubRepository, GitHubUser } from "@/types/github";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const username = searchParams.get('username');
+  const username = searchParams.get("username");
 
   // バリデーション
-  if (!username || username.trim() === '') {
+  if (!username || username.trim() === "") {
     return NextResponse.json<GitHubApiResponse>(
       {
         success: false,
-        error: 'ユーザー名を入力してください',
+        error: "ユーザー名を入力してください",
       },
       { status: 400 }
     );
@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
     const [userResponse, reposResponse] = await Promise.all([
       fetch(userUrl, {
         headers: {
-          Accept: 'application/vnd.github.v3+json',
+          Accept: "application/vnd.github.v3+json",
         },
         next: { revalidate: 300 }, // 5分キャッシュ
       }),
       fetch(reposUrl, {
         headers: {
-          Accept: 'application/vnd.github.v3+json',
+          Accept: "application/vnd.github.v3+json",
         },
         next: { revalidate: 300 }, // 5分キャッシュ
       }),
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     if (userResponse.status === 404) {
       return NextResponse.json<GitHubApiResponse>({
         success: false,
-        error: 'ユーザーが見つかりませんでした',
+        error: "ユーザーが見つかりませんでした",
       });
     }
 
@@ -61,11 +61,11 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('GitHub API error:', error);
+    console.error("GitHub API error:", error);
     return NextResponse.json<GitHubApiResponse>(
       {
         success: false,
-        error: 'GitHub APIの呼び出しに失敗しました。しばらく待ってから再度お試しください',
+        error: "GitHub APIの呼び出しに失敗しました。しばらく待ってから再度お試しください",
       },
       { status: 500 }
     );
