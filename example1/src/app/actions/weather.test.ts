@@ -15,7 +15,7 @@ describe("getWeather", () => {
 
   afterEach(() => {
     // 環境変数をクリア
-    process.env.OPENWEATHER_API_KEY = undefined;
+    process.env.OPENWEATHER_API_KEY = "";
   });
 
   describe("入力バリデーション", () => {
@@ -287,7 +287,7 @@ describe("getWeather", () => {
 
   describe("API キーの検証", () => {
     it("API キーが設定されていない場合、エラーを返す", async () => {
-      process.env.OPENWEATHER_API_KEY = undefined;
+      process.env.OPENWEATHER_API_KEY = "";
       const result = await getWeather("Tokyo");
       expect(result.success).toBe(false);
       if (!result.success) {
