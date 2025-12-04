@@ -1,6 +1,6 @@
 "use server";
 
-import type { WeatherData, WeatherDisplay } from "@/types/weather";
+import type { WeatherDisplay } from "@/types/weather";
 import { isWeatherData, isWeatherError } from "@/types/weather";
 import { translateCityName } from "@/utils/cityMapping";
 

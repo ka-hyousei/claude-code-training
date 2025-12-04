@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+  if (!amount || Number.isNaN(Number(amount)) || Number(amount) <= 0) {
     return NextResponse.json<CurrencyApiResponse>(
       {
         success: false,

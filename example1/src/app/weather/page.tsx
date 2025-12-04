@@ -72,97 +72,99 @@ export default function WeatherPage() {
         </div>
 
         {/* 検索フォーム */}
-        <form onSubmit={handleSubmit} className="mb-8" role="search">
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6">
-            <label htmlFor="city-input" className="block text-sm font-medium text-gray-700 mb-2">
-              都市名を入力
-            </label>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                id="city-input"
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="例: 東京, 北京, Seoul, London..."
-                className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-gray-800 placeholder-gray-400 text-base leading-6 transition-all h-[50px]"
-                disabled={isLoading}
-                aria-label="都市名を入力"
-                aria-required="true"
-              />
-              <button
-                type="submit"
-                disabled={isLoading || !city.trim()}
-                className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
-                aria-label={isLoading ? "検索中" : "天気を検索"}
-              >
-                {/* グラデーションオーバーレイ */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <search>
+          <form onSubmit={handleSubmit} className="mb-8">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6">
+              <label htmlFor="city-input" className="block text-sm font-medium text-gray-700 mb-2">
+                都市名を入力
+              </label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  id="city-input"
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="例: 東京, 北京, Seoul, London..."
+                  className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none text-gray-800 placeholder-gray-400 text-base leading-6 transition-all h-[50px]"
+                  disabled={isLoading}
+                  aria-label="都市名を入力"
+                  aria-required="true"
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading || !city.trim()}
+                  className="group relative sm:w-auto w-full px-8 py-3 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none h-[50px] shadow-xl hover:shadow-2xl"
+                  aria-label={isLoading ? "検索中" : "天気を検索"}
+                >
+                  {/* グラデーションオーバーレイ */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* 光沢効果 */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                  {/* 光沢効果 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
 
-                {/* ボタンコンテンツ */}
-                <span className="relative z-10">
-                  {isLoading ? (
-                    <span className="flex items-center justify-center gap-3">
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
+                  {/* ボタンコンテンツ */}
+                  <span className="relative z-10">
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-3">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                        <span className="text-base tracking-wide">検索中...</span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2.5">
+                        <svg
+                          className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110"
                           fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      <span className="text-base tracking-wide">検索中...</span>
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center gap-2.5">
-                      <svg
-                        className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                      <span className="text-base tracking-wide">検索</span>
-                    </span>
-                  )}
-                </span>
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
+                        <span className="text-base tracking-wide">検索</span>
+                      </span>
+                    )}
+                  </span>
 
-                {/* 下部のアクセント */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
+                  {/* 下部のアクセント */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </search>
 
         {/* ローディング表示 */}
         {isLoading && (
-          <div
-            className="bg-white rounded-lg shadow-xl p-8 text-center"
-            role="status"
+          <output
+            className="bg-white rounded-lg shadow-xl p-8 text-center block"
             aria-live="polite"
           >
             <div
               className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"
+              role="img"
               aria-label="読み込み中"
             ></div>
             <p className="text-gray-600">天気情報を取得中...</p>
-          </div>
+          </output>
         )}
 
         {/* エラー表示 */}
@@ -273,12 +275,10 @@ export default function WeatherPage() {
                   />
                 </div>
                 <div className="text-center sm:text-left">
-                  <div
-                    className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
-                    aria-label={`気温 ${weather.temperature}度`}
-                  >
-                    {weather.temperature}°C
-                  </div>
+                  <p className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    <span className="sr-only">気温 {weather.temperature}度</span>
+                    <span aria-hidden="true">{weather.temperature}°C</span>
+                  </p>
                   <p className="text-xl sm:text-2xl text-gray-700 font-medium capitalize mt-2">
                     {weather.description}
                   </p>

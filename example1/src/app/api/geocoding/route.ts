@@ -81,11 +81,13 @@ export async function GET(request: NextRequest) {
         lng: result.geometry.location.lng,
         formattedAddress: result.formatted_address,
         placeId: result.place_id,
-        addressComponents: result.address_components.map((component: any) => ({
-          longName: component.long_name,
-          shortName: component.short_name,
-          types: component.types,
-        })),
+        addressComponents: result.address_components.map(
+          (component: { long_name: string; short_name: string; types: string[] }) => ({
+            longName: component.long_name,
+            shortName: component.short_name,
+            types: component.types,
+          })
+        ),
       },
     });
   } catch (error) {
