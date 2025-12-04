@@ -13,7 +13,8 @@
     "test:coverage": "vitest run --coverage",
     "format": "biome format --write ./src",
     "biome:lint": "biome lint --write ./src",
-    "check": "biome check --write ./src"
+    "check": "biome check --write ./src",
+    "check:ci": "biome check ./src"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

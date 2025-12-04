@@ -15,7 +15,7 @@ export default function Home() {
           priority
         />
         <div className={styles.intro}>
-          <h1>Claude Code Training Project</h1>
+          <h1>Claude Code Training Project - Biome CI</h1>
           <p>このプロジェクトでは、Claude Codeを使った開発を体験できます。</p>
         </div>
         <div className={styles.ctas}>

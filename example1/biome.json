@@ -1,18 +1,32 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {}
+        }
+      }
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedImports": "warn"
+        "noUnusedImports": "warn",
+        "useExhaustiveDependencies": "warn"
       },
       "suspicious": {
         "noExplicitAny": "warn",
-        "noGlobalIsNan": "warn"
+        "noGlobalIsNan": "warn",
+        "noArrayIndexKey": "warn"
       },
       "style": {
-        "noNonNullAssertion": "warn"
+        "noNonNullAssertion": "warn",
+        "useConst": "error",
+        "useTemplate": "warn"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
@@ -24,7 +38,8 @@
         "useAriaPropsSupportedByRole": "warn"
       },
       "performance": {
-        "noImgElement": "off"
+        "noImgElement": "off",
+        "noDelete": "warn"
       }
     }
   },
@@ -38,10 +53,27 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "double",
-      "semicolons": "always"
-    }
+      "semicolons": "always",
+      "trailingCommas": "es5",
+      "bracketSpacing": true
+    },
+    "jsxRuntime": "reactClassic"
   },
   "files": {
-    "includes": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
+    "includes": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "*.config.js",
+      "*.config.ts",
+      "*.config.mjs",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/out",
+      "!**/dist",
+      "!**/build",
+      "!**/.vercel"
+    ]
   }
 }
