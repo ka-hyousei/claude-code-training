@@ -4,7 +4,7 @@ import Home from "./page";
 describe("Home Page", () => {
   it("ページタイトルが表示される", () => {
     render(<Home />);
-    expect(screen.getByText("Claude Code Training Project")).toBeInTheDocument();
+    expect(screen.getByText("Claude Code Training Project - Biome CI")).toBeInTheDocument();
   });
 
   it("説明文が表示される", () => {
