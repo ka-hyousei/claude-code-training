@@ -7,12 +7,17 @@ import GalleryPage from "./page";
 global.fetch = vi.fn();
 
 // Next.js Image のモック
+interface MockImageProps {
+  fill?: boolean;
+  alt?: string;
+  [key: string]: unknown;
+}
+
 vi.mock("next/image", () => ({
   __esModule: true,
-  default: (props: any) => {
-    const { fill, ...rest } = props;
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    return <img {...rest} data-fill={fill ? "true" : "false"} />;
+  default: (props: MockImageProps) => {
+    const { fill, alt = "", ...rest } = props;
+    return <img {...rest} alt={alt} data-fill={fill ? "true" : "false"} />;
   },
 }));
 
@@ -290,7 +295,7 @@ describe("Gallery Page", () => {
     it("検索中はローディング表示がされる", async () => {
       const user = userEvent.setup();
 
-      let resolvePromise: any;
+      let resolvePromise: (value: Response) => void;
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementation(
         () =>
           new Promise((resolve) => {

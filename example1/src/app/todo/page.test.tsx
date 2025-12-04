@@ -200,7 +200,7 @@ describe("Todo Page", () => {
       await waitFor(() => {
         const savedData = localStorageMock.getItem("todos");
         expect(savedData).toBeTruthy();
-        const todos = JSON.parse(savedData!);
+        const todos = JSON.parse(savedData ?? "[]");
         expect(todos).toHaveLength(1);
         expect(todos[0].text).toBe("テストタスク");
       });
