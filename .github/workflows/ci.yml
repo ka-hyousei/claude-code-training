@@ -5,21 +5,40 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      test-scope:
+        description: 'テストのスコープ'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - unit
+          - integration
+      skip-build:
+        description: 'ビルドをスキップ'
+        required: false
+        default: false
+        type: boolean
+      environment:
+        description: '環境'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
 
 jobs:
-  lint:
-    name: Lint
+  code-quality:
+    name: Code Quality Check
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,28 +51,35 @@ jobs:
         working-directory: example1
         run: npm ci
 
-      - name: Run Biome check and fix
+      - name: Run Biome format check
         working-directory: example1
-        run: npm run check
+        run: npx @biomejs/biome format ./src
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "style: auto-fix by Biome"
-          file_pattern: "example1/src/**"
+      - name: Run Biome lint
+        working-directory: example1
+        run: npx @biomejs/biome lint ./src
+
+      - name: Run Biome check
+        working-directory: example1
+        run: npx @biomejs/biome check ./src
 
   test:
-    name: Test
+    name: Unit Tests (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18, 20, 21]
+      fail-fast: false
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: example1/package-lock.json
 
@@ -63,12 +89,33 @@ jobs:
 
       - name: Run tests
         working-directory: example1
-        run: npm test
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Test scope: ${{ inputs.test-scope }}"
+            echo "Environment: ${{ inputs.environment }}"
+          fi
+          npm run test
+
+      - name: Generate coverage report
+        working-directory: example1
+        run: npm run test:coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: ./example1/coverage
+          files: ./example1/coverage/coverage-final.json
+          flags: unittests-node-${{ matrix.node-version }}
+          name: codecov-node-${{ matrix.node-version }}
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build:
-    name: Build
+    name: Build Check
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    # skip-buildがtrueの場合、またはworkflow_dispatchでない場合は実行
+    if: ${{ github.event_name != 'workflow_dispatch' || !inputs.skip-build }}
 
     steps:
       - name: Checkout code
@@ -87,4 +134,8 @@ jobs:
 
       - name: Build
         working-directory: example1
-        run: npm run build
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Environment: ${{ inputs.environment }}"
+          fi
+          npm run build
