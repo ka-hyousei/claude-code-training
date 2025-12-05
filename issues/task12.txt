@@ -1,8 +1,3 @@
-# Task11: skills
-
-詳細: https://github.com/07130918/claude-code-training/issues/1
-
-
 1.エージェントスキルとは?
 https://code.claude.com/docs/ja/skills
 https://zenn.dev/ino_h/articles/2025-10-23-claude-code-skills-guide
