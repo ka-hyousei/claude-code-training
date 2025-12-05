@@ -27,7 +27,8 @@
       "Bash(gh auth status:*)",
       "Bash(gh auth switch:*)",
       "Bash(npm run check:ci:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(gh run list:*)"
     ],
     "deny": [],
     "ask": []
